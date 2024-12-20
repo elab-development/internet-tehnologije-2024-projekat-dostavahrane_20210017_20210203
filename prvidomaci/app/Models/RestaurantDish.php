@@ -5,25 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class RestaurantDish extends Model
 {
-    /** @use HasFactory<\Database\Factories\OrderFactory> */
+    /** @use HasFactory<\Database\Factories\RestaurantDishFactory> */
     use HasFactory;
-
-    public function orderItems()
-    {
-    return $this->hasMany(OrderItem::class);
-    }
 
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
     }
 
-    public function user()
+    public function dish()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Dish::class);
     }
-
-
 }

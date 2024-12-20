@@ -9,4 +9,10 @@ class Category extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
+
+    public function dishes()
+    {
+    return $this->hasMany(Dish::class);
+    }
+
 }
