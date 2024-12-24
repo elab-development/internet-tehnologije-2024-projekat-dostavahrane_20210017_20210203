@@ -13,58 +13,49 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        Category::updateOrCreate(
+            ['name' => 'Pizza 32cm'],
+            ['name' => 'Pizza 32cm']
+        );
 
-        Category::create([
-            'name' => 'Pizza 32cm',
+        Category::updateOrCreate(
+            ['name' => 'Paste'],
+            ['name' => 'Paste']
+        );
 
-        ]);
+        Category::updateOrCreate(
+            ['name' => 'Rostilj'],
+            ['name' => 'Rostilj']
+        );
 
-        
-        Category::create([
-            'name' => 'Paste',
+        Category::updateOrCreate(
+            ['name' => 'Pizza 50cm'],
+            ['name' => 'Pizza 50cm']
+        );
 
-        ]);
+        Category::updateOrCreate(
+            ['name' => 'Burgeri'],
+            ['name' => 'Burgeri']
+        );
 
-        
-        Category::create([
-            'name' => 'Rostilj',
+        Category::updateOrCreate(
+            ['name' => 'Obrok salate'],
+            ['name' => 'Obrok salate']
+        );
 
-        ]);
+        Category::updateOrCreate(
+            ['name' => 'Sendvici'],
+            ['name' => 'Sendvici']
+        );
 
-        
-        Category::create([
-            'name' => 'Pizza 50cm',
+        Category::updateOrCreate(
+            ['name' => 'Pica'],
+            ['name' => 'Pica']
+        );
 
-        ]);
-
-        
-        Category::create([
-            'name' => 'Burgeri',
-
-        ]);
-
-        
-        Category::create([
-            'name' => 'Obrok salate',
-
-        ]);
-
-        
-        Category::create([
-            'name' => 'Sendvici',
-
-        ]);
-
-        
-        Category::create([
-            'name' => 'Pica',
-
-        ]);
-
-        
-        Category::create([
-            'name' => 'Deserti',
-
-        ]);
+        Category::updateOrCreate(
+            ['name' => 'Deserti'],
+            ['name' => 'Deserti']
+        );
     }
 }

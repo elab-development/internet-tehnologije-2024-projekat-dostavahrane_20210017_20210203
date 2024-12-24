@@ -22,7 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            //
+            $table->enum('status', ['pending', 'preparing', 'on_the_way', 'delivered', 'cancelled'])
+                  ->default('pending');
         });
     }
 };

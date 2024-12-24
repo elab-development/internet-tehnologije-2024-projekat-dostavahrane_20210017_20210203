@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurant_dish', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
-            $table->foreignId('dish_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('restaurant_dishes', function (Blueprint $table) {
+            Schema::rename('restaurant_dish', 'restaurant_dishes');
         });
-        
     }
 
     /**
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('restaurant_dish');
+        Schema::table('restaurant_dishes', function (Blueprint $table) {
+            Schema::rename('restaurant_dishes', 'restaurant_dish');
+        });
     }
 };

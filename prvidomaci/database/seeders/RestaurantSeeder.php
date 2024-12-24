@@ -13,45 +13,45 @@ class RestaurantSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        
-
-        //Restaurant::truncate();
-
-        Restaurant::create([
+{
+    Restaurant::updateOrCreate(
+        ['email' => 'borneo@example.com'], // Jedinstveni ključ za identifikaciju
+        [
             'name' => 'Borneo',
-            'email' => 'borneo@example.com',
-            'address'=> 'Njegoseva',
+            'address' => 'Njegoseva',
             'phone' => '011333444',
-            'description' => ' Najbolja picerija u Pancevu.'
+            'description' => 'Najbolja picerija u Pancevu.'
+        ]
+    );
 
-
-        ]);
-
-        Restaurant::create([
+    Restaurant::updateOrCreate(
+        ['email' => 'vetrenjaca@example.com'], // Jedinstveni ključ za identifikaciju
+        [
             'name' => 'Vetrenjaca',
-            'email' => 'vetrenjaca@example.com',
             'address' => 'Tamiski kej',
             'phone' => '011222333',
-            'description' => ' Najbolji restoran u Pancevu.'
-        ]);
+            'description' => 'Najbolji restoran u Pancevu.'
+        ]
+    );
 
-        Restaurant::create([
+    Restaurant::updateOrCreate(
+        ['email' => 'hilton@example.com'], // Jedinstveni ključ za identifikaciju
+        [
             'name' => 'Hilton',
-            'email' => 'hilton@example.com',
             'address' => 'Beogradska ulica',
             'phone' => '013343555',
-            'description' => ' Najbolji restoran u Beogradu.'
-            
-        ]);
+            'description' => 'Najbolji restoran u Beogradu.'
+        ]
+    );
 
-        Restaurant::create([
+    Restaurant::updateOrCreate(
+        ['email' => 'pocoloco@example.com'], // Jedinstveni ključ za identifikaciju
+        [
             'name' => 'Poco loco',
-            'email' => 'pocoloco@example.com',
             'address' => 'Brace jovanovica',
             'phone' => '013343777',
             'description' => 'Lep restoran sa velikim izborom hrane u Pancevu.'
-        ]);
-
-    }
+        ]
+    );
+}
 }

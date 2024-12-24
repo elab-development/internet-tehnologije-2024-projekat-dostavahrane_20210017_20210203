@@ -13,175 +13,109 @@ class DishSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        Dish::create([
-            'name' => 'Capricciosa',
-            'description' => 'Pelat, gauda, sunka, sampinjoni, masline',
-            'price'=> 1100,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Capricciosa', 'category_id' => 1],
+            ['description' => 'Pelat, gauda, sunka, sampinjoni, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Napolitana',
-            'description' => 'Pelat, gauda, sunka, masline',
-            'price'=> 1000,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Napolitana', 'category_id' => 1],
+            ['description' => 'Pelat, gauda, sunka, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Funghi',
-            'description' => 'Pelat, gauda, sampinjoni, masline',
-            'price'=> 1050,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Funghi', 'category_id' => 1],
+            ['description' => 'Pelat, gauda, sampinjoni, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Margherita',
-            'description' => 'Pelat, mocarela, bosiljak',
-            'price'=> 950,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Margherita', 'category_id' => 1],
+            ['description' => 'Pelat, mocarela, bosiljak', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Quatro staggione',
-            'description' => 'Pelat, gauda, sunka, sampinjoni, jaje, paprika, kobasica, slanina, feferoni, masline',
-            'price'=> 1350,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Quatro staggione', 'category_id' => 1],
+            ['description' => 'Pelat, gauda, sunka, sampinjoni, jaje, paprika, kobasica, slanina, feferoni, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Quatro formaggi',
-            'description' => 'Pelat, gorgonzola, mocarela, ementaler, parmezan, masline',
-            'price'=> 1290,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Quatro formaggi', 'category_id' => 1],
+            ['description' => 'Pelat, gorgonzola, mocarela, ementaler, parmezan, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Vegeterijana',
-            'description' => 'Pelat, gauda, sampinjoni, jaje, paprika, feferoni, krastavac, paradajz, masline',
-            'price'=> 940,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Vegeterijana', 'category_id' => 1],
+            ['description' => 'Pelat, gauda, sampinjoni, jaje, paprika, feferoni, krastavac, paradajz, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Veganska pizza',
-            'description' => 'Pelat, sampinjoni, paprika, feferoni, krastavac, kukuruz, paradajz, masline',
-            'price'=> 900,
-            'category_id' => 1,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Veganska pizza', 'category_id' => 1],
+            ['description' => 'Pelat, sampinjoni, paprika, feferoni, krastavac, kukuruz, paradajz, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Capricciosa',
-            'description' => 'Pelat, gauda, sunka, sampinjoni, masline',
-            'price'=> 1600,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Capricciosa', 'category_id' => 4],
+            ['description' => 'Pelat, gauda, sunka, sampinjoni, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Napolitana',
-            'description' => 'Pelat, gauda, sunka, masline',
-            'price'=> 1550,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Napolitana', 'category_id' => 4],
+            ['description' => 'Pelat, gauda, sunka, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Funghi',
-            'description' => 'Pelat, gauda, sampinjoni, masline',
-            'price'=> 1500,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Funghi', 'category_id' => 4],
+            ['description' => 'Pelat, gauda, sampinjoni, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Margherita',
-            'description' => 'Pelat, mocarela, bosiljak',
-            'price'=> 1300,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Margherita', 'category_id' => 4],
+            ['description' => 'Pelat, mocarela, bosiljak', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Quattro staggione',
-            'description' => 'Pelat, gauda, sunka, sampinjoni, jaje, paprika, kobasica, slanina, feferoni, masline',
-            'price'=> 1800,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Quattro staggione', 'category_id' => 4],
+            ['description' => 'Pelat, gauda, sunka, sampinjoni, jaje, paprika, kobasica, slanina, feferoni, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Quattro formaggi',
-            'description' => 'Pelat, gorgonzola, mocarela, ementaler, parmezan, masline',
-            'price'=> 1700,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Quattro formaggi', 'category_id' => 4],
+            ['description' => 'Pelat, gorgonzola, mocarela, ementaler, parmezan, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Vegeterijana',
-            'description' => 'Pelat, gauda, sampinjoni, jaje, paprika, feferoni, krastavac, paradajz, masline',
-            'price'=> 1450,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Vegeterijana', 'category_id' => 4],
+            ['description' => 'Pelat, gauda, sampinjoni, jaje, paprika, feferoni, krastavac, paradajz, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Veganska pizza',
-            'description' => 'Pelat, sampinjoni, paprika, feferoni, krastavac, kukuruz, paradajz, masline',
-            'price'=> 1350,
-            'category_id' => 4,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Veganska pizza', 'category_id' => 4],
+            ['description' => 'Pelat, sampinjoni, paprika, feferoni, krastavac, kukuruz, paradajz, masline', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Carbonara',
-            'description' => 'Panceta, nautralna pavlaka, jaje, zacini',
-            'price'=> 790,
-            'category_id' => 2,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Carbonara', 'category_id' => 2],
+            ['description' => 'Panceta, nautralna pavlaka, jaje, zacini', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Bolognese',
-            'description' => 'Sos od paradajza i mlevenog mesa, parmezan, zacini',
-            'price'=> 810,
-            'category_id' => 2,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Bolognese', 'category_id' => 2],
+            ['description' => 'Sos od paradajza i mlevenog mesa, parmezan, zacini', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Pesto genovese',
-            'description' => 'Pileci file, pesto sos, neutralna pavlaka, zacini',
-            'price'=> 790,
-            'category_id' => 2,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Pesto genovese', 'category_id' => 2],
+            ['description' => 'Pileci file, pesto sos, neutralna pavlaka, zacini', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Quatrro formaggi',
-            'description' => 'Gorgonzola, ementaler, parmezan, gauda, zacini',
-            'price'=> 810,
-            'category_id' => 2,
-            'availability' => true
-        ]);
+        Dish::updateOrCreate(
+            ['name' => 'Quatrro formaggi', 'category_id' => 2],
+            ['description' => 'Gorgonzola, ementaler, parmezan, gauda, zacini', 'availability' => true]
+        );
 
-        Dish::create([
-            'name' => 'Pasta di mare',
-            'description' => 'Plodovi mora, paradajz, crni luk, zacini',
-            'price'=> 790,
-            'category_id' => 2,
-            'availability' => true
-        ]);
-
-
+        Dish::updateOrCreate(
+            ['name' => 'Pasta di mare', 'category_id' => 2],
+            ['description' => 'Plodovi mora, paradajz, crni luk, zacini', 'availability' => true]
+        );
     }
 }
