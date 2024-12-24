@@ -10,13 +10,15 @@ class OrderItem extends Model
     /** @use HasFactory<\Database\Factories\OrderItemFactory> */
     use HasFactory;
 
-    public function dish()
+    public function restaurant_dish()
     {
-        return $this->belongsTo(Dish::class);
+        return $this->belongsTo(RestaurantDish::class);
     }
 
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
+
+    
 }
