@@ -16,7 +16,7 @@ class RestaurantSeeder extends Seeder
     {
         
 
-        Restaurant::truncate();
+        //Restaurant::truncate();
 
         Restaurant::create([
             'name' => 'Borneo',
