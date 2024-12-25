@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('order_items', function (Blueprint $table) {
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreign('dish_id')->references('id')->on('dishes')->onDelete('cascade');
         });
     }
 
@@ -24,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('order_items', function (Blueprint $table) {
             $table->dropForeign(['order_id']);
-            $table->dropForeign(['dish_id']);
         });
     }
 };
