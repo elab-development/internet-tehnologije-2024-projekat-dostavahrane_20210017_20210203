@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RestaurantDish;
+use App\Http\Resources\RestaurantDishResource;
 use Illuminate\Http\Request;
 
 class RestaurantDishController extends Controller
@@ -10,15 +11,73 @@ class RestaurantDishController extends Controller
     /**
      * Display a listing of the resource.
      */
+    
     public function index()
     {
-        $restaurantdishes = RestaurantDish::all();
+        $restaurantDishes = RestaurantDish::with(['restaurant', 'dish.category'])->get();
 
-        if ($restaurantdishes->isEmpty()) {
-            return response()->json(['message' => 'No restaurant dishes found'], 404);
+    if ($restaurantDishes->isEmpty()) {
+        return response()->json([
+            'message' => 'No restaurant dishes found.',
+        ], 404);
+    }
+
+  
+    $resource = RestaurantDishResource::collection($restaurantDishes);
+
+   
+    return response()->json([
+        'restaurant_dishes' => $resource->response()->getData(true)['data']
+    ]);
+    }
+
+    public function getByRestaurant($id)
+    {
+        
+        $restaurantDishes = RestaurantDish::with(['restaurant', 'dish.category'])
+                                          ->where('restaurant_id', $id)
+                                          ->get();
+
+       
+        if ($restaurantDishes->isEmpty()) {
+            return response()->json([
+                'message' => 'This dish is not in any of the restaraunts.',
+            ], 404);
         }
 
-        return response()->json($restaurantdishes, 200);
+       
+       
+    $resource = RestaurantDishResource::collection($restaurantDishes);
+
+   
+    return response()->json([
+        'restaurant_dishes' => $resource->response()->getData(true)['data']
+    ]);
+    }
+
+
+    public function getByDish($id)
+    {
+        
+        $restaurantDishes = RestaurantDish::with(['restaurant', 'dish.category'])
+                                          ->where('dish_id', $id)
+                                          ->get();
+
+       
+        if ($restaurantDishes->isEmpty()) {
+            return response()->json([
+                'message' => 'This dish is not in any of the restaraunts.',
+            ], 404);
+        }
+
+       
+        
+    $resource = RestaurantDishResource::collection($restaurantDishes);
+
+    
+    return response()->json([
+        'restaurant_dishes' => $resource->response()->getData(true)['data']
+    ]);
     }
 
     /**
@@ -40,9 +99,20 @@ class RestaurantDishController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RestaurantDish $restaurantDish)
+    public function show($id)
     {
-        
+        [$restaurant_id, $dish_id] = explode('-', $id);
+
+        $restaurantDish = RestaurantDish::with('restaurant','dish.category')
+                                         ->where('restaurant_id', $restaurant_id)
+                                         ->where('dish_id', $dish_id)
+                                         ->first();
+
+        if (!$restaurantDish) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+
+        return new RestaurantDishResource($restaurantDish);
     }
 
     /**

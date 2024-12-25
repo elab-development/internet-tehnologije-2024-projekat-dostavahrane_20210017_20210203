@@ -13,5 +13,10 @@ Route::get('/user', function (Request $request) {
 
 Route::get('restaurants', [RestaurantController::class, 'index']);
 Route::get('users', [UserController::class, 'index']);
-Route::get('restaurantdishes', [RestaurantDishController::class, 'index']);
-Route::get('restaurantdishes/{id}', [RestaurantDishController::class, 'show']);
+
+//Route::get('restaurantdishes', [RestaurantDishController::class, 'index']);
+//Route::get('restaurantdishes/{id}', [RestaurantDishController::class, 'show']);
+
+Route::resource('restaurantdishes', RestaurantDishController::class);
+Route::get('restaurant/{id}/dishes', [RestaurantDishController::class, 'getByRestaurant']);
+Route::get('dish/{id}/restaurants', [RestaurantDishController::class, 'getByDish']);
