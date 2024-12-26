@@ -17,7 +17,18 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->randomElement([
+                'Pizza',
+                'Pasta',
+                'Salads',
+                'Desserts',
+                'Burgers',
+                'Sushi',
+                'Drinks',
+                'Appetizers',
+                'Seafood',
+                'Grilled Dishes'
+            ]),
         ];
     }
 }

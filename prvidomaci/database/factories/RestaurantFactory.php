@@ -17,7 +17,11 @@ class RestaurantFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+           'name' => $this->faker->company(),  // Nasumičan naziv restorana (koristi se kao ime firme)
+            'email' => $this->faker->unique()->safeEmail(),  // Nasumičan jedinstveni email
+            'address' => $this->faker->address(),  // Nasumična adresa
+            'phone' => $this->faker->phoneNumber(),  // Nasumičan broj telefona
+            'description' => $this->faker->paragraph(),
         ];
     }
 }
