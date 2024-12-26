@@ -10,6 +10,12 @@ class OrderItem extends Model
     /** @use HasFactory<\Database\Factories\OrderItemFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'restaurant_id',
+        'dish_id',
+        'order_id',
+    ];
+
     public function restaurant_dish()
     {
         return $this->belongsTo(RestaurantDish::class);
