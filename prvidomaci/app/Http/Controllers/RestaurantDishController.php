@@ -41,7 +41,7 @@ class RestaurantDishController extends Controller
        
         if ($restaurantDishes->isEmpty()) {
             return response()->json([
-                'message' => 'This dish is not in any of the restaraunts.',
+                'message' => 'This restaraunt does not exist or it doesnt have any meals.',
             ], 404);
         }
 
@@ -66,7 +66,7 @@ class RestaurantDishController extends Controller
        
         if ($restaurantDishes->isEmpty()) {
             return response()->json([
-                'message' => 'This dish is not in any of the restaraunts.',
+                'message' => 'This dish is not in any of the restaraunts or it doesnt exist.',
             ], 404);
         }
 
@@ -79,6 +79,57 @@ class RestaurantDishController extends Controller
         'restaurant_dishes' => $resource->response()->getData(true)['data']
     ]);
     }
+
+    public function search(Request $request)
+{
+    $query = RestaurantDish::query();
+    
+    if ($request->has('dish_name')) {
+        $query->whereHas('dish', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->input('dish_name') . '%');
+        });
+    }
+
+    if ($request->has('restaurant_name')) {
+        $query->whereHas('restaurant', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->input('restaurant_name') . '%');
+        });
+    }
+    
+    
+    if ($request->has('min_price') || $request->has('max_price')) {
+        if ($request->has('min_price')) {
+            $query->where('price', '>=', $request->input('min_price'));
+        }
+        if ($request->has('max_price')) {
+            $query->where('price', '<=', $request->input('max_price'));
+        }
+    }
+
+   
+    if ($request->has('sort_by_price')) {
+        $sortDirection = $request->input('sort_by_price') === 'desc' ? 'desc' : 'asc';
+        $query->orderBy('price', $sortDirection);
+    }
+
+    
+    $restaurantDishes = $query->with(['restaurant', 'dish'])->get();
+
+    
+    if ($restaurantDishes->isEmpty()) {
+        return response()->json([
+            'message' => 'Record not found.',
+        ], 404);
+    }
+
+    
+    $resource = RestaurantDishResource::collection($restaurantDishes);
+
+   
+    return response()->json([
+        'restaurant_dishes' => $resource->response()->getData(true)['data']
+    ]);
+}
 
     /**
      * Show the form for creating a new resource.
