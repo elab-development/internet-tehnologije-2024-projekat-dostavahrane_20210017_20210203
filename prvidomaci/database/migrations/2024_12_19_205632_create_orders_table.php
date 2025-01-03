@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('restaurant_id');
             $table->unsignedInteger('total_price');
             $table->enum('status', ['pending', 'preparing', 'on_the_way', 'delivered', 'cancelled'])
                   ->default('pending');

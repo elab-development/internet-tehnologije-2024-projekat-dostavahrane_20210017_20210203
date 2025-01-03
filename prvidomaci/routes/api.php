@@ -28,9 +28,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/restaurant-dishes/search', [RestaurantDishController::class, 'search']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/profile', function(Request $request) {
-        return auth()->user();
-    });
     Route::post('/orders', [OrderController::class, 'store']);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
     Route::get('/orders', [OrderController::class, 'index']);

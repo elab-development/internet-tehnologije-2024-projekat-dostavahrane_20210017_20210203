@@ -10,10 +10,6 @@ class Restaurant extends Model
     /** @use HasFactory<\Database\Factories\RestaurantFactory> */
     use HasFactory;
 
-    public function order()
-    {
-        return $this->hasMany(Order::class);
-    }
 
     public function restaurant_dish()
     {
