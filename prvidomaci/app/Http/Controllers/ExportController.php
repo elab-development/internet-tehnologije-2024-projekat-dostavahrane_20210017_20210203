@@ -21,13 +21,12 @@ class ExportController extends Controller
 
     $output = fopen('php://output', 'w');
 
-    fputcsv($output, ['Order ID', 'User', 'Restaurant', 'Total Price', 'Delivery Address', 'Created At']);
+    fputcsv($output, ['Order ID', 'User', 'Total Price', 'Delivery Address', 'Created At']);
 
     foreach ($orders as $order) {
         fputcsv($output, [
             $order->id,
             $order->user->username ?? 'N/A',
-            $order->restaurant->name ?? 'N/A',
             $order->total_price,
             $order->delivery_address,
             $order->created_at,

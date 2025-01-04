@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedInteger('price');
             $table->unsignedBigInteger('restaurant_id'); 
             $table->unsignedBigInteger('category_id');
-            $table->boolean('availability')->default(true); 
             $table->timestamps();
         });
         

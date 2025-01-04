@@ -100,7 +100,6 @@ class OrderController extends Controller
 
             $order = Order::create([
                 'user_id' => $user->id,
-                'restaurant_id' => $restaurant->id,
                 'total_price' => $totalPrice,
                 'delivery_address' => $deliveryAddress
             ]);
