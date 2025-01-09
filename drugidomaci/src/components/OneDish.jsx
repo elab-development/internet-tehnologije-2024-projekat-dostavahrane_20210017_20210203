@@ -4,7 +4,7 @@ import { CiCircleMinus } from "react-icons/ci";
 
 //za css camelCase notacija
 function OneDish() {
-    const stil = {margin: 10 + "em", borderStyle: "dotted"};
+    const stil = {margin: 1 + "em", borderStyle: "dotted"};
   return (
     <div className="card" style={stil}>
       <img classname="card-img-top" src="https:/picsum.photos/200" alt="Slidza 1"/> 
