@@ -1,3 +1,4 @@
+/* Vaš trenutni CSS */
 .navBar {
   position: relative;
   display: flex;
@@ -54,7 +55,6 @@
 .nav-content:hover {
   color: #c41010;
 }
-
 
 .cart-num {
   background-color: grey;
@@ -136,7 +136,6 @@ p {
   text-decoration: underline;
 }
 
-
 @media (max-width: 768px) {
   .navBar {
     flex-direction: column;
@@ -151,3 +150,93 @@ p {
   }
 }
 
+
+.restaurants-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px;
+  scroll-behavior: smooth; 
+}
+
+.restaurants-carousel::-webkit-scrollbar {
+  height: 8px; 
+}
+
+.restaurants-carousel::-webkit-scrollbar-thumb {
+  background-color: #ccc; 
+  border-radius: 10px;
+}
+
+.restaurants-carousel::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+
+.card {
+  flex: 0 0 calc(30% - 20px); 
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid black;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  border-style: dashed;
+}
+.card:hover .card-img-top {
+  opacity: 1; 
+}
+
+
+.card-img-top {
+  width: 100%;
+  height: 450px;
+  object-fit: cover; 
+  object-position: center; 
+  opacity: 0.7; 
+  transition: opacity 0.3s ease; 
+}
+
+
+.card-body {
+  padding: 15px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 150px;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
+
+  
+  .card {
+    flex: 0 0 calc(70% - 20px);
+  }
+}

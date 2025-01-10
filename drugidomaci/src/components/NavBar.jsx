@@ -17,7 +17,7 @@ function NavBar() {
         </div>
         <div className="nav-content">
           <GrRestaurant />
-          <a href="#">Restorani</a>
+          <Link to="/restaurants">Restorani</Link>
         </div>
         <div className="nav-content">
           <GiHotMeal />
