@@ -1,17 +1,41 @@
-import React from 'react'
-import OneRestaurant from './OneRestaurant'
-const Restaurants = ({restaurants}) => {
+import React, { useRef } from 'react';
+import OneRestaurant from './OneRestaurant';
 
-    
+const Restaurants = ({ restaurants }) => {
+  const carouselRef = useRef(null);
 
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className="restaurants-carousel">
-      {restaurants.map((restaurant) => (
-        <OneRestaurant key={restaurant.id} restaurant={restaurant} />
-      ))}
+    <div>
+    <h1>Restorani</h1>
+    <p>Pregledaj našu raznoliku ponudu restorana i pronađi baš ono što želiš!</p>
+      <div className="restaurants-carousel-container">
+        <button className="carousel-arrow left" onClick={scrollLeft}>
+          &#10094;
+        </button>
+        <div className="restaurants-carousel" ref={carouselRef}>
+          {restaurants.map((restaurant) => (
+            <OneRestaurant key={restaurant.id} restaurant={restaurant} />
+          ))}
+        </div>
+        <button className="carousel-arrow right" onClick={scrollRight}>
+          &#10095;
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Restaurants
+export default Restaurants;
+

@@ -1,13 +1,13 @@
 import React from 'react'
 import OneDish from './OneDish'
 
-const Dishes = () => {
+const Dishes = ({dishes}) => {
   return (
-    <div className="all-products">
-      <OneDish />
-      <OneDish />
-      <OneDish />
-    </div>
+      <div className="dishes-container">
+      {dishes.map((dish) => (
+        <OneDish key={dish.id} dish={dish} />
+      ))}
+      </div>
   )
 }
 

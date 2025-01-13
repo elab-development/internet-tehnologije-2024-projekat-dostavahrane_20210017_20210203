@@ -5,7 +5,7 @@ function OneRestaurant({restaurant}) {
 
    return (
       <div className="card" style={stil}>
-        <img className="card-img-top" src={restaurant.pic} alt="Slidza 1"/> 
+        <img className="card-img-top" src={restaurant.pic} alt="Slika 1"/> 
         <div className="card-body">
           <h3 className="card-title">{restaurant.name}</h3>
           <p className="card-text">{restaurant.description}</p>

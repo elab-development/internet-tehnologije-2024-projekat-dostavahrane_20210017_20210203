@@ -6,10 +6,12 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Restaurants from './components/Restaurants';
-import borneopica from "./photos/borneopica.avif";
+import borneopica from "./photos/borneopica.jpg";
 import hiltonbiftek from "./photos/hiltonbiftek.jpg";
 import pasta from "./photos/pasta.jpg";
 import karadjordjeva from "./photos/karadjordjeva.jpg";
+import Categories from './components/Categories';
+
 
 
 function App() {
@@ -25,7 +27,7 @@ function App() {
     },
     {
         id:2,
-        name:"Vetrenjaca",
+        name:"Vetrenjača",
         email:"vetrenjaca@gmail.com",
         address:"Tamiski kej",
         phone:"011222333",
@@ -39,7 +41,7 @@ function App() {
         address:"Beogradska ulica",
         phone:"013343555",
         description:"400din - 45min", 
-        pic: hiltonbiftek, 
+        pic: hiltonbiftek,
     },
     {
         id:4,
@@ -51,15 +53,90 @@ function App() {
         pic: pasta, 
     }
 ]
+
+  const categories = [
+      {
+        id:1,
+        name:"Pizza 32cm",
+        icon: require('./photos/smallpizza.png')
+      },
+      {
+        id:2,
+        name:"Paste",
+        icon: require('./photos/pasta.png')
+      },
+      {
+        id:3,
+        name:"Roštilj",
+        icon:require('./photos/rostilj.png')
+      },
+      {
+        id:4,
+        name:"Pizza 50cm",
+        icon:require('./photos/pizza.png')
+      },
+      {
+        id:5,
+        name:"Burgeri",
+        icon:require('./photos/burger.png')
+      },
+      {
+        id:6,
+        name:"Obrok salate",
+        icon:require('./photos/salata.png')
+      },
+      {
+        id:7,
+        name:"Sendviči",
+        icon:require('./photos/sendvic.png')
+      },
+      {
+        id:8,
+        name:"Pića",
+        icon:require('./photos/pica.png')
+      },
+      {
+        id:9,
+        name:"Deserti",
+        icon:require('./photos/desert.png')
+      },
+
+  ]
+
+  const dishes = [
+    { id: 1, name: "Capricciosa 32cm", description: "Pelat, gauda, sunka, sampinjoni, masline", category_id: 1,  },
+    { id: 2, name: "Napolitana 32cm", description: "Pelat, gauda, sunka, masline", category_id: 1 },
+    { id: 3, name: "Funghi 32cm", description: "Pelat, gauda, sampinjoni, masline", category_id: 1 },
+    { id: 4, name: "Margherita 32cm", description: "Pelat, mocarela, bosiljak", category_id: 1 },
+    { id: 5, name: "Quatro staggione 32cm", description: "Pelat, gauda, sunka, sampinjoni, jaje, paprika, ko...", category_id: 1 },
+    { id: 6, name: "Quatro formaggi 32cm", description: "Pelat, gorgonzola, mocarela, ementaler, parmezan, ...", category_id: 1 },
+    { id: 7, name: "Vegeterijana 32cm", description: "Pelat, gauda, sampinjoni, jaje, paprika, feferoni,...", category_id: 1 },
+    { id: 8, name: "Veganska pizza 32cm", description: "Pelat, sampinjoni, paprika, feferoni, krastavac, k...", category_id: 1 },
+    { id: 9, name: "Capricciosa 50cm", description: "Pelat, gauda, sunka, sampinjoni, masline", category_id: 4 },
+    { id: 10, name: "Napolitana 50cm", description: "Pelat, gauda, sunka, masline", category_id: 4 },
+    { id: 11, name: "Funghi 50cm", description: "Pelat, gauda, sampinjoni, masline", category_id: 4 },
+    { id: 12, name: "Margherita 50cm", description: "Pelat, mocarela, bosiljak", category_id: 4 },
+    { id: 13, name: "Quattro staggion 50cm", description: "Pelat, gauda, sunka, sampinjoni, jaje, paprika, ko...", category_id: 4 },
+    { id: 14, name: "Quattro formaggi 50cm", description: "Pelat, gorgonzola, mocarela, ementaler, parmezan, ...", category_id: 4 },
+    { id: 15, name: "Vegeterijana 50cm", description: "Pelat, gauda, sampinjoni, jaje, paprika, feferoni,...", category_id: 4 },
+    { id: 16, name: "Veganska pizza 50cm", description: "Pelat, sampinjoni, paprika, feferoni, krastavac, k...", category_id: 4 },
+    { id: 17, name: "Carbonara", description: "Panceta, nautralna pavlaka, jaje, zacini", category_id: 2 },
+    { id: 18, name: "Bolognese", description: "Sos od paradajza i mlevenog mesa, parmezan, zacini", category_id: 2 },
+    { id: 19, name: "Pesto genovese", description: "Pileci file, pesto sos, neutralna pavlaka, zacini", category_id: 2 },
+    { id: 20, name: "Quatrro formaggi", description: "Gorgonzola, ementaler, parmezan, gauda, zacini", category_id: 2 },
+    { id: 21, name: "Pasta di mare", description: "Plodovi mora, paradajz, crni luk, zacini", category_id: 2 }
+  ];
+
   return <div className="App">
     <Router>
       <NavBar></NavBar>
       
       <Routes>
-        <Route path="/" element={<Dishes />}></Route>
+        <Route path="/" element={<Dishes dishes={dishes}/>}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
+        <Route path="/categories" element={<Categories categories={categories} dishes={dishes}/>}></Route>
       </Routes>
     </Router>
   </div>;

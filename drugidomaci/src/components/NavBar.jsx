@@ -21,7 +21,7 @@ function NavBar() {
         </div>
         <div className="nav-content">
           <GiHotMeal />
-          <a href="#">Kategorije</a>
+          <Link to="/categories">Kategorije</Link>
         </div>
         <div className="nav-content">
           <IoSearch />
