@@ -90,6 +90,15 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+
 .form-group {
   margin-bottom: 15px;
   text-align: left;
@@ -355,6 +364,7 @@ p {
     flex: 0 0 calc(70% - 20px);
   }
 }
+
 .home {
   font-family: Arial, sans-serif;
   color: #333;
@@ -363,7 +373,7 @@ p {
 .hero {
   text-align: center;
   padding: 50px;
-  background: url("./photos/herooo.jpg") no-repeat center center/cover;
+  background: url("./photos/herooo.png") no-repeat center center/cover;
   color: white;
 }
 
@@ -466,3 +476,113 @@ p {
   display: block;
   margin-top: 5px;
 }
+
+.dish-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.dish-carousel-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(249, 249, 249, 0.8); /* Lagana pozadina za bolju vidljivost */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.dish-carousel-image {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.dish-carousel-text {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 90%;
+  text-align: center;
+}
+
+
+.dish-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.dish-carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.left-btn {
+  left: 10px;
+}
+
+.right-btn {
+  right: 10px;
+}
+
+.restaurantscat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.restaurantscat-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.restaurantscat-card-title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.restaurantscat-card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+.restaurantscat-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.restaurantscat-card-text {
+  font-size: 14px;
+  color: #555;
+}
+
