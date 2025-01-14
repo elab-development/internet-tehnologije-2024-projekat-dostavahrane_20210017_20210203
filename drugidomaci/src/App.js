@@ -11,8 +11,7 @@ import hiltonbiftek from "./photos/hiltonbiftek.jpg";
 import pasta from "./photos/pasta.jpg";
 import karadjordjeva from "./photos/karadjordjeva.jpg";
 import Categories from './components/Categories';
-
-
+import Home from './components/Home';
 
 function App() {
   const restaurants = [
@@ -132,7 +131,7 @@ function App() {
       <NavBar></NavBar>
       
       <Routes>
-        <Route path="/" element={<Dishes dishes={dishes}/>}></Route>
+        <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
