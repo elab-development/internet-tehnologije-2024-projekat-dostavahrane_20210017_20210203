@@ -25,7 +25,7 @@ function NavBar() {
         </div>
         <div className="nav-content">
           <IoSearch />
-          <a href="#">Pretraga</a>
+          <Link to="/search">Pretraga</Link>
         </div>
       </div>
 

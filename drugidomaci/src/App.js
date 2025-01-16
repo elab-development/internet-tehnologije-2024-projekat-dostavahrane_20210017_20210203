@@ -11,6 +11,7 @@ import pasta from "./photos/pasta.jpg";
 import karadjordjeva from "./photos/karadjordjeva.jpg";
 import Categories from './components/Categories';
 import Home from './components/Home';
+import Search from './components/Search';
 
 function App() {
   const restaurants = [
@@ -32,7 +33,7 @@ function App() {
         phone:"011222333",
         description:"200din - 35min",  
         pic: karadjordjeva,
-        categories: [2,3,6,7,8],
+        categories: [1,2,3,6,7,8],
     },
     {
         id:3,
@@ -42,7 +43,7 @@ function App() {
         phone:"013343555",
         description:"400din - 45min", 
         pic: hiltonbiftek,
-        categories: [1,2,3,5,7,8,9],
+        categories: [2,3,5,7,8,9],
     },
     {
         id:4,
@@ -126,8 +127,62 @@ function App() {
     { id: 18, name: "Bolognese", description: "Sos od paradajza i mlevenog mesa, parmezan, zacini", category_id: 2, isPopular: true, pic: require('./photos/dish18.png')},
     { id: 19, name: "Pesto genovese", description: "Pileci file, pesto sos, neutralna pavlaka, zacini", category_id: 2, isPopular: false, },
     { id: 20, name: "Quatrro formaggi", description: "Gorgonzola, ementaler, parmezan, gauda, zacini", category_id: 2, isPopular: false, },
-    { id: 21, name: "Pasta di mare", description: "Plodovi mora, paradajz, crni luk, zacini", category_id: 2, isPopular: false, }
+    { id: 21, name: "Pasta di mare", description: "Plodovi mora, paradajz, crni luk, zacini", category_id: 2, isPopular: false, },
+    { id: 22, name: "Cevapi", description: "Mesavina junetina i svinjetina 200g", category_id: 3, isPopular: false, },
+    { id: 23, name: "Batak na zaru", description: "Svezi socni batak pecena na cumuru 200g", category_id: 3, isPopular: false, },
+    { id: 24, name: "Cheeseburger", description: "150g junetina, gauda, panceta, paradajz, burger sos, kiseli krastavcici", category_id: 5, isPopular: false, },
+    { id: 25, name: "Chickenburger", description: "150g pohovana piletina, mocarela, panceta, zelena salata, burger sos", category_id: 5, isPopular: false, },
+    { id: 26, name: "Cezar salata", description: "Dresing, zelena salata, domaci kackavalj, piletina, panceta", category_id: 6, isPopular: false, },
+    { id: 27, name: "Tuna salata", description: "Tunjevina, zelena salata, posni majonez, posni sir, masline, paradajz", category_id: 6, isPopular: false, },
+    { id: 28, name: "Club sendvic", description: "Mocarela, sunka, jaje, paradajz, zelena salata, majonez, pomfrit", category_id: 7, isPopular: false, },
+    { id: 29, name: "Posni sendvic", description: "Zelena salata, posni namaz, paradajz, posni kackavalj, tunjevina", category_id: 7, isPopular: false, },
+    { id: 30, name: "Coca cola 0.5", description: "Mala", category_id: 8, isPopular: false, },
+    { id: 31, name: "Coca cola 1.5", description: "Velika", category_id: 8, isPopular: false, },
+    { id: 32, name: "Fanta 0.5", description: "Mala", category_id: 8, isPopular: false, },
+    { id: 33, name: "Fanta 1.5", description: "Velika", category_id: 8, isPopular: false, },
+    { id: 34, name: "Cheesecake", description: "Malina, plazma, slatka pavlaka", category_id: 9, isPopular: false, },
+    { id: 35, name: "Tiramisu", description: "Kafa, slag, piskote, vanila", category_id: 9, isPopular: false, },
   ];
+
+  const restaurantdishes = [
+    {restaurant_id: 1, dish_id: 2, price: 900 },
+    {restaurant_id: 1, dish_id: 3, price: 900 },
+    {restaurant_id: 1, dish_id: 9, price: 1400 },
+    {restaurant_id: 1, dish_id: 10, price: 1450 },
+    {restaurant_id: 1, dish_id: 18, price: 1000 },
+    {restaurant_id: 1, dish_id: 19, price: 1050 },
+    {restaurant_id: 1, dish_id: 22, price: 950 },
+    {restaurant_id: 1, dish_id: 23, price: 1000 },
+    {restaurant_id: 1, dish_id: 24, price: 1200 },
+    {restaurant_id: 1, dish_id: 25, price: 1300 },
+    {restaurant_id: 1, dish_id: 26, price: 1150 },
+    {restaurant_id: 1, dish_id: 27, price: 1300 },
+    {restaurant_id: 1, dish_id: 30, price: 120 },
+    {restaurant_id: 1, dish_id: 31, price: 200 },
+    {restaurant_id: 1, dish_id: 32, price: 120 },
+    {restaurant_id: 1, dish_id: 33, price: 200 },
+    {restaurant_id: 1, dish_id: 34, price: 550 },
+    {restaurant_id: 1, dish_id: 35, price: 700},
+    {restaurant_id: 2, dish_id: 2, price: 980 },
+    {restaurant_id: 2, dish_id: 5, price: 850 },
+    {restaurant_id: 2, dish_id: 19, price: 1100 },
+    {restaurant_id: 2, dish_id: 20, price: 1300 },
+    {restaurant_id: 2, dish_id: 22, price: 1000 },
+    {restaurant_id: 2, dish_id: 23, price: 1130},
+    {restaurant_id: 2, dish_id: 26, price: 1180 },
+    {restaurant_id: 2, dish_id: 27, price: 1340 },
+    {restaurant_id: 2, dish_id: 28, price: 650 },
+    {restaurant_id: 2, dish_id: 29, price: 500 },
+    {restaurant_id: 2, dish_id: 30, price: 100 },
+    {restaurant_id: 2, dish_id: 31, price: 180 },
+    {restaurant_id: 2, dish_id: 32, price: 100 },
+    {restaurant_id: 2, dish_id: 33, price: 180 },
+    {restaurant_id: 3, dish_id: 4, price: 920 },
+    {restaurant_id: 3, dish_id: 8, price: 1040 },
+    {restaurant_id: 3, dish_id: 20, price: 1450 },
+    {restaurant_id: 3, dish_id: 21, price: 1600 },
+  ];
+
 
   return <div className="App">
     <Router>
@@ -139,6 +194,7 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
+        <Route path="/search" element={<Search restaurants={restaurants} dishes={dishes}/>}></Route>
       </Routes>
     </Router>
   </div>;
