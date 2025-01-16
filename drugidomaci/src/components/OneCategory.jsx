@@ -2,7 +2,7 @@ import React from 'react';
 
 const OneCategory = ( {category, onCategoryClick}) => {
   return (
-    <div className="category-card" onClick={() => onCategoryClick(category.id)}>
+    <div className="category-card" style={{cursor: "pointer"}} onClick={() => onCategoryClick(category.id)}>
       <div className="category-icon">
         <img src={category.icon} alt={category.name} />
       </div>

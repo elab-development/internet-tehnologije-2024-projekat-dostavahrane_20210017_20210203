@@ -2,6 +2,7 @@ import React from 'react';
 import OneCategory from './OneCategory';
 import PopularDishesCarousel from './PopularDishesCarousel';
 import { useState } from "react";
+import OneRestaurantCat from './OneRestaurantCat';
 
 const Categories = ({ categories,dishes,restaurants }) => {
   const popularDishes = dishes.filter((dish) => dish.isPopular);
@@ -12,6 +13,7 @@ const Categories = ({ categories,dishes,restaurants }) => {
     );
     setDisplayedRestaurants(filteredRestaurants);
   };
+
   return (
     <div>
     <h1>Kategorije</h1>
@@ -23,13 +25,7 @@ const Categories = ({ categories,dishes,restaurants }) => {
       <div className="restaurantscat">
         {displayedRestaurants.length > 0 ? (
           displayedRestaurants.map((restaurant) => (
-            <div className="restaurantscat-card">
-            <img className="restaurantscat-card-img-top" src={restaurant.pic} alt="Slika 1"/> 
-            <div className="restaurantscat-card-body">
-              <h3 className="restaurantscat-card-title">{restaurant.name}</h3>
-              <p className="restaurantscat-card-text">{restaurant.description}</p>
-            </div>
-          </div>
+            <OneRestaurantCat key={restaurant.id} restaurant={restaurant} />
           ))
         ) : (
           <br></br>

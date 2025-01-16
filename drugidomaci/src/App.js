@@ -12,6 +12,7 @@ import karadjordjeva from "./photos/karadjordjeva.jpg";
 import Categories from './components/Categories';
 import Home from './components/Home';
 import Search from './components/Search';
+import RestaurantMenu from './components/RestaurantMenu';
 
 function App() {
   const restaurants = [
@@ -23,7 +24,7 @@ function App() {
         phone:"011333444",
         description:"250din - 30min",
         pic: borneopica,
-        categories: [1,2,3,4,5,6,8,9],
+        categories: [1,2,3,4,5,8,9],
     },
     {
         id:2,
@@ -33,7 +34,7 @@ function App() {
         phone:"011222333",
         description:"200din - 35min",  
         pic: karadjordjeva,
-        categories: [1,2,3,6,7,8],
+        categories: [2,3,6,8,9],
     },
     {
         id:3,
@@ -43,7 +44,7 @@ function App() {
         phone:"013343555",
         description:"400din - 45min", 
         pic: hiltonbiftek,
-        categories: [2,3,5,7,8,9],
+        categories: [1,2,3,5,7,8,9],
     },
     {
         id:4,
@@ -155,32 +156,57 @@ function App() {
     {restaurant_id: 1, dish_id: 23, price: 1000 },
     {restaurant_id: 1, dish_id: 24, price: 1200 },
     {restaurant_id: 1, dish_id: 25, price: 1300 },
-    {restaurant_id: 1, dish_id: 26, price: 1150 },
-    {restaurant_id: 1, dish_id: 27, price: 1300 },
     {restaurant_id: 1, dish_id: 30, price: 120 },
     {restaurant_id: 1, dish_id: 31, price: 200 },
     {restaurant_id: 1, dish_id: 32, price: 120 },
     {restaurant_id: 1, dish_id: 33, price: 200 },
-    {restaurant_id: 1, dish_id: 34, price: 550 },
-    {restaurant_id: 1, dish_id: 35, price: 700},
-    {restaurant_id: 2, dish_id: 2, price: 980 },
-    {restaurant_id: 2, dish_id: 5, price: 850 },
+    {restaurant_id: 1, dish_id: 34, price: 350 },
+    {restaurant_id: 1, dish_id: 35, price: 400},
     {restaurant_id: 2, dish_id: 19, price: 1100 },
     {restaurant_id: 2, dish_id: 20, price: 1300 },
     {restaurant_id: 2, dish_id: 22, price: 1000 },
     {restaurant_id: 2, dish_id: 23, price: 1130},
     {restaurant_id: 2, dish_id: 26, price: 1180 },
     {restaurant_id: 2, dish_id: 27, price: 1340 },
-    {restaurant_id: 2, dish_id: 28, price: 650 },
-    {restaurant_id: 2, dish_id: 29, price: 500 },
     {restaurant_id: 2, dish_id: 30, price: 100 },
     {restaurant_id: 2, dish_id: 31, price: 180 },
     {restaurant_id: 2, dish_id: 32, price: 100 },
     {restaurant_id: 2, dish_id: 33, price: 180 },
+    {restaurant_id: 2, dish_id: 35, price: 380},
+    {restaurant_id: 3, dish_id: 1, price: 1080 },
     {restaurant_id: 3, dish_id: 4, price: 920 },
+    {restaurant_id: 3, dish_id: 7, price: 1090 },
     {restaurant_id: 3, dish_id: 8, price: 1040 },
     {restaurant_id: 3, dish_id: 20, price: 1450 },
     {restaurant_id: 3, dish_id: 21, price: 1600 },
+    {restaurant_id: 3, dish_id: 22, price: 1200 },
+    {restaurant_id: 3, dish_id: 23, price: 1300},
+    {restaurant_id: 3, dish_id: 24, price: 990 },
+    {restaurant_id: 3, dish_id: 25, price: 1030 },
+    {restaurant_id: 3, dish_id: 28, price: 830 },
+    {restaurant_id: 3, dish_id: 30, price: 300 },
+    {restaurant_id: 3, dish_id: 32, price: 300 },
+    {restaurant_id: 3, dish_id: 34, price: 550 },
+    {restaurant_id: 3, dish_id: 35, price: 510 },
+    {restaurant_id: 4, dish_id: 2, price: 800 },
+    {restaurant_id: 4, dish_id: 3, price: 820 },
+    {restaurant_id: 4, dish_id: 5, price: 950 },
+    {restaurant_id: 4, dish_id: 6, price: 980 },
+    {restaurant_id: 4, dish_id: 9, price: 1300 },
+    {restaurant_id: 4, dish_id: 10, price: 1200 },
+    {restaurant_id: 4, dish_id: 17, price: 840 },
+    {restaurant_id: 4, dish_id: 18, price: 810 },
+    {restaurant_id: 4, dish_id: 19, price: 900 },
+    {restaurant_id: 4, dish_id: 22, price: 960 },
+    {restaurant_id: 4, dish_id: 23, price: 1040 },
+    {restaurant_id: 4, dish_id: 26, price: 890 },
+    {restaurant_id: 4, dish_id: 27, price: 750 },
+    {restaurant_id: 4, dish_id: 30, price: 240 },
+    {restaurant_id: 4, dish_id: 31, price: 360 },
+    {restaurant_id: 4, dish_id: 32, price: 240 },
+    {restaurant_id: 4, dish_id: 33, price: 360 },
+    {restaurant_id: 4, dish_id: 34, price: 400 },
+    {restaurant_id: 4, dish_id: 35, price: 450},
   ];
 
 
@@ -195,6 +221,7 @@ function App() {
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} dishes={dishes}/>}></Route>
+        <Route path="/restaurant/:id/menu" element={<RestaurantMenu dishes={dishes} restaurantdishes={restaurantdishes}/>} />
       </Routes>
     </Router>
   </div>;
