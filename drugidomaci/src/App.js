@@ -220,7 +220,7 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
-        <Route path="/search" element={<Search restaurants={restaurants} dishes={dishes}/>}></Route>
+        <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
         <Route path="/restaurant/:id/menu" element={<RestaurantMenu dishes={dishes} restaurantdishes={restaurantdishes}/>} />
       </Routes>
     </Router>
