@@ -1,7 +1,8 @@
 //import logo from './logo.svg';
+import React, { useState } from "react";
 import './App.css';
 import NavBar from './components/NavBar';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Restaurants from './components/Restaurants';
@@ -13,8 +14,28 @@ import Categories from './components/Categories';
 import Home from './components/Home';
 import Search from './components/Search';
 import RestaurantMenu from './components/RestaurantMenu';
+import UserProfile from './components/UserProfile';
 
 function App() {
+
+  const [registeredUsers, setRegisteredUsers] = useState([]);
+  const [user, setUser] = useState(null);
+
+  const handleRegister = (formData) => {
+    setRegisteredUsers((prevUsers) => [...prevUsers, formData]);
+  };
+
+  const handleLogin = (formData) => {
+    const foundUser = registeredUsers.find(
+      (u) => u.email === formData.email && u.password === formData.password
+    );
+    if (foundUser) {
+      setUser(foundUser);
+    } else {
+      alert("Email ili lozinka nisu ispravni ili korisnik nije registrovan!");
+    }
+  };
+
   const restaurants = [
     {
         id:1,
@@ -212,12 +233,13 @@ function App() {
 
   return <div className="App">
     <Router>
-      <NavBar></NavBar>
+      <NavBar user ={ user }/>
       
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/register" element={<Register onRegister={handleRegister} />} />
+        <Route path="/profile" element={user ? <UserProfile userData={user} /> : <Navigate to="/login" />}/>
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>

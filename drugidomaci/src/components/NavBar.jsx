@@ -7,7 +7,7 @@ import { IoSearch } from "react-icons/io5";
 import quickbite_transparent from "../photos/quickbite_transparent.png";
 import { Link } from "react-router-dom";
 
-function NavBar() {
+function NavBar( {user}) {
   return (
     <div className="navBar">
       <div className="nav-left">
@@ -40,9 +40,9 @@ function NavBar() {
           <PiForkKnifeBold />
           <p className="cart-num">0</p>
         </div>
-        <Link to="/login" className="nav-content">
-          <FaRegUserCircle />
-        </Link>
+        <Link to={user ? "/profile" : "/login"} className="nav-content">
+        <FaRegUserCircle />
+      </Link>
       </div>
     </div>
   );
