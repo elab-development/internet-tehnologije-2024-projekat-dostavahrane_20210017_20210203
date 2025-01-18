@@ -1,5 +1,5 @@
 //import logo from './logo.svg';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"
 import './App.css';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -15,9 +15,12 @@ import Home from './components/Home';
 import Search from './components/Search';
 import RestaurantMenu from './components/RestaurantMenu';
 import UserProfile from './components/UserProfile';
+import Cart from './components/Cart';
 
 function App() {
-
+  let [cartNum, setCartNum] = useState(0);
+  let [cartItem, setCartItem] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
 
@@ -35,7 +38,7 @@ function App() {
       alert("Email ili lozinka nisu ispravni ili korisnik nije registrovan!");
     }
   };
-
+  
   const restaurants = [
     {
         id:1,
@@ -166,74 +169,124 @@ function App() {
     { id: 35, name: "Tiramisu", description: "Kafa, slag, piskote, vanila", category_id: 9, isPopular: false, },
   ];
 
-  const restaurantdishes = [
-    {restaurant_id: 1, dish_id: 2, price: 900 },
-    {restaurant_id: 1, dish_id: 3, price: 900 },
-    {restaurant_id: 1, dish_id: 9, price: 1400 },
-    {restaurant_id: 1, dish_id: 10, price: 1450 },
-    {restaurant_id: 1, dish_id: 18, price: 1000 },
-    {restaurant_id: 1, dish_id: 19, price: 1050 },
-    {restaurant_id: 1, dish_id: 22, price: 950 },
-    {restaurant_id: 1, dish_id: 23, price: 1000 },
-    {restaurant_id: 1, dish_id: 24, price: 1200 },
-    {restaurant_id: 1, dish_id: 25, price: 1300 },
-    {restaurant_id: 1, dish_id: 30, price: 120 },
-    {restaurant_id: 1, dish_id: 31, price: 200 },
-    {restaurant_id: 1, dish_id: 32, price: 120 },
-    {restaurant_id: 1, dish_id: 33, price: 200 },
-    {restaurant_id: 1, dish_id: 34, price: 350 },
-    {restaurant_id: 1, dish_id: 35, price: 400},
-    {restaurant_id: 2, dish_id: 19, price: 1100 },
-    {restaurant_id: 2, dish_id: 20, price: 1300 },
-    {restaurant_id: 2, dish_id: 22, price: 1000 },
-    {restaurant_id: 2, dish_id: 23, price: 1130},
-    {restaurant_id: 2, dish_id: 26, price: 1180 },
-    {restaurant_id: 2, dish_id: 27, price: 1340 },
-    {restaurant_id: 2, dish_id: 30, price: 100 },
-    {restaurant_id: 2, dish_id: 31, price: 180 },
-    {restaurant_id: 2, dish_id: 32, price: 100 },
-    {restaurant_id: 2, dish_id: 33, price: 180 },
-    {restaurant_id: 2, dish_id: 35, price: 380},
-    {restaurant_id: 3, dish_id: 1, price: 1080 },
-    {restaurant_id: 3, dish_id: 4, price: 920 },
-    {restaurant_id: 3, dish_id: 7, price: 1090 },
-    {restaurant_id: 3, dish_id: 8, price: 1040 },
-    {restaurant_id: 3, dish_id: 20, price: 1450 },
-    {restaurant_id: 3, dish_id: 21, price: 1600 },
-    {restaurant_id: 3, dish_id: 22, price: 1200 },
-    {restaurant_id: 3, dish_id: 23, price: 1300},
-    {restaurant_id: 3, dish_id: 24, price: 990 },
-    {restaurant_id: 3, dish_id: 25, price: 1030 },
-    {restaurant_id: 3, dish_id: 28, price: 830 },
-    {restaurant_id: 3, dish_id: 30, price: 300 },
-    {restaurant_id: 3, dish_id: 32, price: 300 },
-    {restaurant_id: 3, dish_id: 34, price: 550 },
-    {restaurant_id: 3, dish_id: 35, price: 510 },
-    {restaurant_id: 4, dish_id: 2, price: 800 },
-    {restaurant_id: 4, dish_id: 3, price: 820 },
-    {restaurant_id: 4, dish_id: 5, price: 950 },
-    {restaurant_id: 4, dish_id: 6, price: 980 },
-    {restaurant_id: 4, dish_id: 9, price: 1300 },
-    {restaurant_id: 4, dish_id: 10, price: 1200 },
-    {restaurant_id: 4, dish_id: 17, price: 840 },
-    {restaurant_id: 4, dish_id: 18, price: 810 },
-    {restaurant_id: 4, dish_id: 19, price: 900 },
-    {restaurant_id: 4, dish_id: 22, price: 960 },
-    {restaurant_id: 4, dish_id: 23, price: 1040 },
-    {restaurant_id: 4, dish_id: 26, price: 890 },
-    {restaurant_id: 4, dish_id: 27, price: 750 },
-    {restaurant_id: 4, dish_id: 30, price: 240 },
-    {restaurant_id: 4, dish_id: 31, price: 360 },
-    {restaurant_id: 4, dish_id: 32, price: 240 },
-    {restaurant_id: 4, dish_id: 33, price: 360 },
-    {restaurant_id: 4, dish_id: 34, price: 400 },
-    {restaurant_id: 4, dish_id: 35, price: 450},
-  ];
-
-
-  return <div className="App">
+  const [restaurantdishes, setRestaurantDishes] = useState ([
+    {restaurant_id: 1, dish_id: 2, price: 900, amount: 0 },
+    {restaurant_id: 1, dish_id: 3, price: 900, amount: 0 },
+    {restaurant_id: 1, dish_id: 9, price: 1400, amount: 0 },
+    {restaurant_id: 1, dish_id: 10, price: 1450, amount: 0 },
+    {restaurant_id: 1, dish_id: 18, price: 1000, amount: 0 },
+    {restaurant_id: 1, dish_id: 19, price: 1050, amount: 0 },
+    {restaurant_id: 1, dish_id: 22, price: 950, amount: 0 },
+    {restaurant_id: 1, dish_id: 23, price: 1000, amount: 0 },
+    {restaurant_id: 1, dish_id: 24, price: 1200, amount: 0 },
+    {restaurant_id: 1, dish_id: 25, price: 1300, amount: 0 },
+    {restaurant_id: 1, dish_id: 30, price: 120, amount: 0 },
+    {restaurant_id: 1, dish_id: 31, price: 200, amount: 0 },
+    {restaurant_id: 1, dish_id: 32, price: 120, amount: 0 },
+    {restaurant_id: 1, dish_id: 33, price: 200, amount: 0 },
+    {restaurant_id: 1, dish_id: 34, price: 350, amount: 0 },
+    {restaurant_id: 1, dish_id: 35, price: 400, amount: 0},
+    {restaurant_id: 2, dish_id: 19, price: 1100, amount: 0 },
+    {restaurant_id: 2, dish_id: 20, price: 1300, amount: 0 },
+    {restaurant_id: 2, dish_id: 22, price: 1000, amount: 0 },
+    {restaurant_id: 2, dish_id: 23, price: 1130, amount: 0},
+    {restaurant_id: 2, dish_id: 26, price: 1180, amount: 0 },
+    {restaurant_id: 2, dish_id: 27, price: 1340, amount: 0 },
+    {restaurant_id: 2, dish_id: 30, price: 100, amount: 0 },
+    {restaurant_id: 2, dish_id: 31, price: 180, amount: 0 },
+    {restaurant_id: 2, dish_id: 32, price: 100, amount: 0 },
+    {restaurant_id: 2, dish_id: 33, price: 180, amount: 0 },
+    {restaurant_id: 2, dish_id: 35, price: 380, amount: 0},
+    {restaurant_id: 3, dish_id: 1, price: 1080, amount: 0 },
+    {restaurant_id: 3, dish_id: 4, price: 920, amount: 0 },
+    {restaurant_id: 3, dish_id: 7, price: 1090, amount: 0 },
+    {restaurant_id: 3, dish_id: 8, price: 1040, amount: 0 },
+    {restaurant_id: 3, dish_id: 20, price: 1450, amount: 0 },
+    {restaurant_id: 3, dish_id: 21, price: 1600, amount: 0 },
+    {restaurant_id: 3, dish_id: 22, price: 1200, amount: 0 },
+    {restaurant_id: 3, dish_id: 23, price: 1300, amount: 0},
+    {restaurant_id: 3, dish_id: 24, price: 990, amount: 0 },
+    {restaurant_id: 3, dish_id: 25, price: 1030, amount: 0 },
+    {restaurant_id: 3, dish_id: 28, price: 830, amount: 0 },
+    {restaurant_id: 3, dish_id: 30, price: 300, amount: 0 },
+    {restaurant_id: 3, dish_id: 32, price: 300, amount: 0 },
+    {restaurant_id: 3, dish_id: 34, price: 550, amount: 0 },
+    {restaurant_id: 3, dish_id: 35, price: 510, amount: 0 },
+    {restaurant_id: 4, dish_id: 2, price: 800, amount: 0 },
+    {restaurant_id: 4, dish_id: 3, price: 820, amount: 0 },
+    {restaurant_id: 4, dish_id: 5, price: 950, amount: 0 },
+    {restaurant_id: 4, dish_id: 6, price: 980, amount: 0 },
+    {restaurant_id: 4, dish_id: 9, price: 1300, amount: 0 },
+    {restaurant_id: 4, dish_id: 10, price: 1200, amount: 0 },
+    {restaurant_id: 4, dish_id: 17, price: 840, amount: 0 },
+    {restaurant_id: 4, dish_id: 18, price: 810, amount: 0 },
+    {restaurant_id: 4, dish_id: 19, price: 900, amount: 0 },
+    {restaurant_id: 4, dish_id: 22, price: 960, amount: 0 },
+    {restaurant_id: 4, dish_id: 23, price: 1040, amount: 0 },
+    {restaurant_id: 4, dish_id: 26, price: 890, amount: 0 },
+    {restaurant_id: 4, dish_id: 27, price: 750, amount: 0 },
+    {restaurant_id: 4, dish_id: 30, price: 240, amount: 0 },
+    {restaurant_id: 4, dish_id: 31, price: 360, amount: 0 },
+    {restaurant_id: 4, dish_id: 32, price: 240, amount: 0 },
+    {restaurant_id: 4, dish_id: 33, price: 360, amount: 0 },
+    {restaurant_id: 4, dish_id: 34, price: 400, amount: 0 },
+    {restaurant_id: 4, dish_id: 35, price: 450, amount: 0},
+  ]);
+  function refreshCart(){
+    let newItems = restaurantdishes.filter((rdish)=>rdish.amount>0);
+    setCartItem(newItems);
+  }
+  const addDish = (name, key, keyr) => {
+    setCartItems((prevItems) => {
+      
+      const existingItem = prevItems.find(item => item.name === name);
+  
+      if (existingItem) {
+        
+        return prevItems.map(item => 
+          item.name === name ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        
+        return [...prevItems, { name, quantity: 1 }];
+      }
+    });
+   restaurantdishes.forEach((rdish) =>{
+    if(rdish.dish_id===key&&rdish.restaurant_id===keyr){
+      rdish.amount++;
+    }
+   });
+  };
+  
+  const removeDish = (name, key, keyr) => {
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find(item => item.name === name);
+  
+      if (existingItem && existingItem.quantity > 1) {
+        
+        return prevItems.map(item => 
+          item.name === name ? { ...item, quantity: item.quantity - 1 } : item
+        );
+      } else if (existingItem && existingItem.quantity === 1) {
+        
+        return prevItems.filter(item => item.name !== name);
+      }
+      
+      return prevItems;
+    });
+    restaurantdishes.forEach((rdish) =>{
+      if(rdish.dish_id===key&&rdish.restaurant_id===keyr){
+        if(rdish.amount>0){rdish.amount--};
+      }
+     });
+  };
+  useEffect(() => {
+    const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+    setCartNum(totalItems);
+  }, [cartItems]);
+  return (<div className="App">
     <Router>
-      <NavBar user ={ user }/>
+      <NavBar user ={ user } cartNum={cartNum} ></NavBar>
       
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -243,11 +296,12 @@ function App() {
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
-        <Route path="/restaurant/:id/menu" element={<RestaurantMenu dishes={dishes} restaurantdishes={restaurantdishes}/>} />
+        <Route path="/restaurant/:id/menu" element={<RestaurantMenu restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
+        <Route path="/cart" element={<Cart dishes={dishes} restaurantdishes={restaurantdishes} items={cartItem}/>}></Route>
       </Routes>
     </Router>
-  </div>;
-    
+  </div>
+  );
 }
 
 export default App;

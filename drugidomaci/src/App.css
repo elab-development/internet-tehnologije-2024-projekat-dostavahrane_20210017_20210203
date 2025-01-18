@@ -62,7 +62,7 @@
   color: white;
   border-radius: 5px;
   text-align: center;
-  padding: 5px 10px;
+ padding: 5px 10px;
   margin-left: 5px;
 }
 
@@ -768,6 +768,39 @@ p {
 
 .btnAddRemove.imMinus:hover {
   background-color: #c82333;
+}
+.menu-item-in-cart {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #4caf50; 
+  border-radius: 8px;
+  background-color: #e0f7e0; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-item-in-cart:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item-in-cart h3 {
+  font-size: 20px;
+  color: #2c6e2f; 
+  margin-bottom: 10px;
+}
+
+.menu-item-in-cart p {
+  margin: 5px 0;
+  color: #4caf50; 
+}
+
+.menu-item-in-cart .price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #1b5e20; 
+  margin-top: 10px;
 }
 
 .profile-container {

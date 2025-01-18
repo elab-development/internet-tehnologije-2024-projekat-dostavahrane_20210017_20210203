@@ -42,11 +42,7 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
 
   // Show results only when there is input
   const showResults = debouncedSearchQuery.length > 0;
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      setSearchQuery(searchQuery); // Apply the query when Enter is pressed
-    }
-  };
+  
   return (
     <div className="search-container">
       <input
