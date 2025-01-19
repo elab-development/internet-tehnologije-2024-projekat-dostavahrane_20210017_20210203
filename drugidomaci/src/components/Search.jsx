@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Debounce function to limit frequent updates while typing
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -19,10 +19,8 @@ const useDebounce = (value, delay) => {
 
 const Search = ({ restaurantDishes, dishes, restaurants }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  
-  
-  // Use debounced search query to optimize performance
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
+  const navigate = useNavigate();
 
   const filteredDishes = restaurantDishes
     .map(dishLink => {
@@ -40,9 +38,8 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
     restaurant.description.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
 
-  // Show results only when there is input
   const showResults = debouncedSearchQuery.length > 0;
-  
+
   return (
     <div className="search-container">
       <input
@@ -50,18 +47,21 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
         className="search-input"
         placeholder="Pretraži restorane i jela..."
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)} // Update the search query
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
 
-<div className={`results-container ${showResults ? 'active' : ''}`}>
+      <div className={`results-container ${showResults ? 'active' : ''}`}>
         {showResults && (
           <>
-            {/* Display dishes results */}
             {filteredDishes.length > 0 && (
               <div>
                 <h3>Jela:</h3>
                 {filteredDishes.map(dish => (
-                  <div key={dish.id} className="result-item">
+                  <div
+                    key={dish.id}
+                    className="result-item clickable"
+                    onClick={() => navigate(`/restaurants/${dish.restaurant_id}/menu`)} 
+                  >
                     <h4>{dish.name}</h4>
                     <p>{dish.description}</p>
                     <p className="result-price">Cena: {dish.price} RSD</p>
@@ -71,12 +71,15 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
               </div>
             )}
 
-            {/* Display restaurants results */}
             {filteredRestaurants.length > 0 && (
               <div>
                 <h3>Restorani:</h3>
                 {filteredRestaurants.map(restaurant => (
-                  <div key={restaurant.id} className="result-item">
+                  <div
+                    key={restaurant.id}
+                    className="result-item clickable"
+                    onClick={() => navigate(`/restaurants/${restaurant.id}/menu`)} 
+                  >
                     <h4>{restaurant.name}</h4>
                     <p>{restaurant.description}</p>
                   </div>
@@ -84,7 +87,6 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
               </div>
             )}
 
-            {/* No results message */}
             {filteredDishes.length === 0 && filteredRestaurants.length === 0 && (
               <p>Nema rezultata koji odgovaraju pretrazi.</p>
             )}
@@ -93,6 +95,6 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
       </div>
     </div>
   );
-}; 
+};
 
 export default Search;

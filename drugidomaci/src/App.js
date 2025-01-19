@@ -16,6 +16,7 @@ import Search from './components/Search';
 import RestaurantMenu from './components/RestaurantMenu';
 import UserProfile from './components/UserProfile';
 import Cart from './components/Cart';
+import Breadcrumbs from "./components/Breadcrumbs";
 
 function App() {
   let [cartNum, setCartNum] = useState(0);
@@ -287,7 +288,7 @@ function App() {
   return (<div className="App">
     <Router>
       <NavBar user ={ user } cartNum={cartNum} ></NavBar>
-      
+      <Breadcrumbs /> 
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
@@ -296,7 +297,7 @@ function App() {
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
-        <Route path="/restaurant/:id/menu" element={<RestaurantMenu restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
+        <Route path="/restaurants/:id/menu" element={<RestaurantMenu restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
         <Route path="/cart" element={<Cart dishes={dishes} restaurantdishes={restaurantdishes} items={cartItem}/>}></Route>
       </Routes>
     </Router>

@@ -843,3 +843,66 @@ h1 {
 .profile-orders strong {
   color: #007bff;
 }
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.sort-controls label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.sort-controls select {
+  padding: 5px 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.sort-controls select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #555;
+  margin: 20px 0;
+}
+
+.breadcrumbs a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.breadcrumbs a:hover {
+  color: #0056b3;
+}
+
+.breadcrumbs span {
+  font-weight: 500;
+  color: #777;
+}
+
+.breadcrumbs a:focus,
+.breadcrumbs a:hover {
+  color: #0056b3;
+}
+
+.breadcrumbs .separator {
+  margin: 0 5px;
+  color: #ccc;
+}
