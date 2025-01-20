@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react"
 import './App.css';
 import NavBar from './components/NavBar';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Restaurants from './components/Restaurants';
@@ -23,21 +23,57 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  useEffect(() => {
+    const storedUsers = localStorage.getItem("registeredUsers");
+    if (storedUsers) {
+      setRegisteredUsers(JSON.parse(storedUsers));
+    }
+  
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+      setIsLoggedIn(true);
+    }
+  }, []);
+  
   const handleRegister = (formData) => {
-    setRegisteredUsers((prevUsers) => [...prevUsers, formData]);
+    setRegisteredUsers((prevUsers) => {
+      const updatedUsers = [...prevUsers, formData];
+      localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers)); // Sačuvaj registrovane korisnike
+      return updatedUsers;
+    });
   };
-
+  
   const handleLogin = (formData) => {
     const foundUser = registeredUsers.find(
       (u) => u.email === formData.email && u.password === formData.password
     );
     if (foundUser) {
       setUser(foundUser);
+      setIsLoggedIn(true);
+      localStorage.setItem("user", JSON.stringify(foundUser)); // Sačuvaj trenutnog korisnika
     } else {
       alert("Email ili lozinka nisu ispravni ili korisnik nije registrovan!");
     }
   };
+  
+  const handleLogout = () => {
+    setUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem("user"); // Ukloni podatke o trenutnom korisniku
+  };
+
+  const handlePlaceOrder = () => {
+    if (user) {
+      const updatedUser = { ...user, orders: (user.orders || 0) + 1 };
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    }
+    setCartItems([]);
+  };
+
   
   const restaurants = [
     {
@@ -155,7 +191,7 @@ function App() {
     { id: 21, name: "Pasta di mare", description: "Plodovi mora, paradajz, crni luk, zacini", category_id: 2, isPopular: false, },
     { id: 22, name: "Cevapi", description: "Mesavina junetina i svinjetina 200g", category_id: 3, isPopular: false, },
     { id: 23, name: "Batak na zaru", description: "Svezi socni batak pecena na cumuru 200g", category_id: 3, isPopular: false, },
-    { id: 24, name: "Cheeseburger", description: "150g junetina, gauda, panceta, paradajz, burger sos, kiseli krastavcici", category_id: 5, isPopular: false, },
+    { id: 24, name: "Cheeseburger", description: "150g junetina, gauda, panceta, paradajz, burger sos, kiseli krastavcici", category_id: 5, pic: require('./photos/dish24.jpg'), isPopular: true, },
     { id: 25, name: "Chickenburger", description: "150g pohovana piletina, mocarela, panceta, zelena salata, burger sos", category_id: 5, isPopular: false, },
     { id: 26, name: "Cezar salata", description: "Dresing, zelena salata, domaci kackavalj, piletina, panceta", category_id: 6, isPopular: false, },
     { id: 27, name: "Tuna salata", description: "Tunjevina, zelena salata, posni majonez, posni sir, masline, paradajz", category_id: 6, isPopular: false, },
@@ -165,7 +201,7 @@ function App() {
     { id: 31, name: "Coca cola 1.5", description: "Velika", category_id: 8, isPopular: false, },
     { id: 32, name: "Fanta 0.5", description: "Mala", category_id: 8, isPopular: false, },
     { id: 33, name: "Fanta 1.5", description: "Velika", category_id: 8, isPopular: false, },
-    { id: 34, name: "Cheesecake", description: "Malina, plazma, slatka pavlaka", category_id: 9, isPopular: false, },
+    { id: 34, name: "Cheesecake", description: "Malina, plazma, slatka pavlaka", category_id: 9, pic: require('./photos/dish34.png'), isPopular: true, },
     { id: 35, name: "Tiramisu", description: "Kafa, slag, piskote, vanila", category_id: 9, isPopular: false, },
   ];
 
@@ -288,12 +324,12 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register onRegister={handleRegister} />} />
-        <Route path="/profile" element={user ? <UserProfile userData={user} /> : <Navigate to="/login" />}/>
+        <Route path="/profile" element={isLoggedIn ? <UserProfile userData={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}/>
         <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
-        <Route path="/restaurants/:id/menu" element={<RestaurantMenu restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
-        <Route path="/cart" element={<Cart dishes={dishes} restaurantdishes={restaurantdishes} items={cartItems} onAdd={addDish} onMin={removeDish}/>}></Route>
+        <Route path="/restaurants/:id/menu" element={<RestaurantMenu user={user} restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
+        <Route path="/cart" element={isLoggedIn ? <Cart dishes={dishes} restaurantdishes={restaurantdishes} items={cartItems} onAdd={addDish} onMin={removeDish} onPlaceOrder={handlePlaceOrder} userData={user}/>: <Login onLogin={handleLogin} />}></Route>
       </Routes>
     </Router>
   </div>

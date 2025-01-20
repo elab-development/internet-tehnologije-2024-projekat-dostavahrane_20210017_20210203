@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
 
-const RestaurantMenu = ({ dishes, restaurants, restaurantdishes, onAdd, onMin }) => {
+const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, onMin }) => {
   const { id } = useParams();
   const restaurantId = parseInt(id, 10);
 
@@ -18,6 +18,24 @@ const RestaurantMenu = ({ dishes, restaurants, restaurantdishes, onAdd, onMin })
         amount: item.amount
       };
     });
+
+    const navigate = useNavigate();
+
+     const handleAddDish = (name, keyd, keyr) => {
+        if (!user) {
+          navigate("/login");
+        } else {
+          onAdd(name, keyd, keyr);
+        }
+      };
+    
+      const handleRemoveDish = (name, keyd, keyr) => {
+        if (!user) {
+          navigate("/login");
+        } else {
+          onMin(name, keyd, keyr);
+        }
+      };
 
   
   const [sortOption, setSortOption] = useState("");
@@ -71,8 +89,8 @@ const RestaurantMenu = ({ dishes, restaurants, restaurantdishes, onAdd, onMin })
               description={dish.description}
               price={dish.price}
               amount={dish.amount}
-              onAdd={onAdd}
-              onMin={onMin}
+              onAdd={handleAddDish}
+              onMin={handleRemoveDish}
               inCart={1}
             />
           ))}

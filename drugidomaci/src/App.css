@@ -927,3 +927,91 @@ h1 {
   margin: 0 5px;
   color: #ccc;
 }
+
+.btn-logout {
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.btn-logout:hover {
+  background-color: darkred;
+}
+
+.password-form {
+  margin-top: 20px;
+}
+
+.password-form .form-group {
+  margin-bottom: 10px;
+}
+
+.password-form input {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.password-form .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.btn-submit:hover {
+  background-color: #45a049;
+}
+
+.order-form {
+  margin-top: 20px;
+}
+
+.order-form .form-group {
+  margin-bottom: 10px;
+}
+
+.order-form input {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-confirm-order {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.btn-confirm-order:hover {
+  background-color: #45a049;
+}
+
+.order-confirmation-dialog {
+  margin-top: 20px;
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+

@@ -1,12 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import marko from "../photos/marko.jpg";
 import ana from "../photos/ana.jpg";
 import margherita from "../photos/dish4.jpg";
-import cheeseburger from "../photos/cheeseburger.jpg";
-import sushi from "../photos/sushi.jpg";
+import cheeseburger from "../photos/dish24.jpg";
+import cheesecake from "../photos/dish34.png";
+
 
 const Home = () => {
+
+
+  const navigate = useNavigate();
+
+  const handleSearch = (mealName) => {
+    navigate(`/search?query=${encodeURIComponent(mealName)}`);
+  };
+
+
   return (
     <div className="home">
       <section className="hero">
@@ -24,17 +35,20 @@ const Home = () => {
           <div className="item">
             <img src={margherita} alt="Pizza" />
             <h3>Margherita Pizza</h3>
-            <p>Samo 850 RSD</p>
+            <p>Samo 920 RSD</p>
+            <button className="cta-button" onClick={() => handleSearch("Margherita")}>Poruči</button>
           </div>
           <div className="item">
             <img src={cheeseburger} alt="Burger" />
             <h3>Cheeseburger</h3>
-            <p>Samo 650 RSD</p>
+            <p>Od 990 RSD</p>
+            <button className="cta-button" onClick={() => handleSearch("Cheeseburger")}>Poruči</button>
           </div>
           <div className="item">
-            <img src={sushi} alt="Sushi" />
-            <h3>Sushi Set</h3>
-            <p>Samo 1250 RSD</p>
+            <img src={cheesecake} alt="Cheesecake" />
+            <h3>Cheesecake</h3>
+            <p>Od 350 RSD</p>
+            <button className="cta-button" onClick={() => handleSearch("Cheesecake")}>Poruči</button>
           </div>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -18,9 +18,14 @@ const useDebounce = (value, delay) => {
 };
 
 const Search = ({ restaurantDishes, dishes, restaurants }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+  const initialQuery = searchParams.get("query") || "";
+
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const filteredDishes = restaurantDishes
     .map(dishLink => {
@@ -98,3 +103,4 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
 };
 
 export default Search;
+
