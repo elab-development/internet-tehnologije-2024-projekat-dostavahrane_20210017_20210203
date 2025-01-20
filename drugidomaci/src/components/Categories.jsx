@@ -2,7 +2,7 @@ import React from 'react';
 import OneCategory from './OneCategory';
 import PopularDishesCarousel from './PopularDishesCarousel';
 import { useState } from "react";
-import OneRestaurantCat from './OneRestaurantCat';
+import OneRestaurant from './OneRestaurant';
 
 const Categories = ({ categories,dishes,restaurants }) => {
   const popularDishes = dishes.filter((dish) => dish.isPopular);
@@ -25,7 +25,7 @@ const Categories = ({ categories,dishes,restaurants }) => {
       <div className="restaurantscat">
         {displayedRestaurants.length > 0 ? (
           displayedRestaurants.map((restaurant) => (
-            <OneRestaurantCat key={restaurant.id} restaurant={restaurant} />
+            <OneRestaurant key={restaurant.id} restaurant={restaurant} cat={1}/>
           ))
         ) : (
           <br></br>

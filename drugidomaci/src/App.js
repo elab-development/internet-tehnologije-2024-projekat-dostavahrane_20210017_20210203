@@ -20,7 +20,6 @@ import Breadcrumbs from "./components/Breadcrumbs";
 
 function App() {
   let [cartNum, setCartNum] = useState(0);
-  let [cartItem, setCartItem] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
@@ -170,7 +169,7 @@ function App() {
     { id: 35, name: "Tiramisu", description: "Kafa, slag, piskote, vanila", category_id: 9, isPopular: false, },
   ];
 
-  const [restaurantdishes, setRestaurantDishes] = useState ([
+  const [restaurantdishes] = useState ([
     {restaurant_id: 1, dish_id: 2, price: 900, amount: 0 },
     {restaurant_id: 1, dish_id: 3, price: 900, amount: 0 },
     {restaurant_id: 1, dish_id: 9, price: 1400, amount: 0 },
@@ -233,58 +232,54 @@ function App() {
     {restaurant_id: 4, dish_id: 34, price: 400, amount: 0 },
     {restaurant_id: 4, dish_id: 35, price: 450, amount: 0},
   ]);
-  function refreshCart(){
-    let newItems = restaurantdishes.filter((rdish)=>rdish.amount>0);
-    setCartItem(newItems);
-  }
-  const addDish = (name, key, keyr) => {
+  
+
+  const addDish = (name, keyd, keyr) => {
     setCartItems((prevItems) => {
-      
-      const existingItem = prevItems.find(item => item.name === name);
+      const existingItem = prevItems.find(item => item.dish_id === keyd && item.restaurant_id === keyr);
   
       if (existingItem) {
-        
         return prevItems.map(item => 
-          item.name === name ? { ...item, quantity: item.quantity + 1 } : item
+          item.dish_id === keyd && item.restaurant_id === keyr ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
-        
-        return [...prevItems, { name, quantity: 1 }];
+        return [...prevItems, { name, quantity: 1, dish_id: keyd, restaurant_id: keyr }];
       }
     });
-   restaurantdishes.forEach((rdish) =>{
-    if(rdish.dish_id===key&&rdish.restaurant_id===keyr){
-      rdish.amount++;
-    }
-   });
+  
+    restaurantdishes.forEach((rdish) => {
+      if (rdish.dish_id === keyd && rdish.restaurant_id === keyr) {
+        rdish.amount++;
+      }
+    });
   };
   
-  const removeDish = (name, key, keyr) => {
+  const removeDish = (name, keyd, keyr) => {
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find(item => item.name === name);
+      const existingItem = prevItems.find(item => item.dish_id === keyd && item.restaurant_id === keyr);
   
       if (existingItem && existingItem.quantity > 1) {
-        
         return prevItems.map(item => 
-          item.name === name ? { ...item, quantity: item.quantity - 1 } : item
+          item.dish_id === keyd && item.restaurant_id === keyr ? { ...item, quantity: item.quantity - 1 } : item
         );
       } else if (existingItem && existingItem.quantity === 1) {
-        
-        return prevItems.filter(item => item.name !== name);
+        return prevItems.filter(item => item.dish_id !== keyd || item.restaurant_id !== keyr);
       }
-      
       return prevItems;
     });
-    restaurantdishes.forEach((rdish) =>{
-      if(rdish.dish_id===key&&rdish.restaurant_id===keyr){
-        if(rdish.amount>0){rdish.amount--};
+    restaurantdishes.forEach((rdish) => {
+      if (rdish.dish_id === keyd && rdish.restaurant_id === keyr && rdish.amount > 0) {
+        rdish.amount--;
       }
-     });
+    });
   };
+
+ 
   useEffect(() => {
     const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
     setCartNum(totalItems);
   }, [cartItems]);
+
   return (<div className="App">
     <Router>
       <NavBar user ={ user } cartNum={cartNum} ></NavBar>
@@ -298,7 +293,7 @@ function App() {
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
         <Route path="/restaurants/:id/menu" element={<RestaurantMenu restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
-        <Route path="/cart" element={<Cart dishes={dishes} restaurantdishes={restaurantdishes} items={cartItem}/>}></Route>
+        <Route path="/cart" element={<Cart dishes={dishes} restaurantdishes={restaurantdishes} items={cartItems} onAdd={addDish} onMin={removeDish}/>}></Route>
       </Routes>
     </Router>
   </div>
@@ -306,3 +301,4 @@ function App() {
 }
 
 export default App;
+

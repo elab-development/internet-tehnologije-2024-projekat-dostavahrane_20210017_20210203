@@ -1,7 +1,7 @@
 import React from "react";
 import { ImPlus, ImMinus } from "react-icons/im";
 
-const MenuItem = ({ name, description, price, onAdd, onMin, inCart, key, keyr, amount }) => {
+const MenuItem = ({ name, description, price, onAdd, onMin, inCart, keyd, keyr, amount }) => {
   
   return (
     <li className={inCart === 1 ? "menu-item" : "menu-item-in-cart" }>
@@ -9,20 +9,20 @@ const MenuItem = ({ name, description, price, onAdd, onMin, inCart, key, keyr, a
       <p>{description}</p>
       <p className="price">{price} RSD</p>
       {inCart === 0 ? <p>{amount}</p> : <></>}
-      {inCart === 1 ? <div className="divContainer">
+       <div className="divContainer">
       <button className="btnAddRemove imPlus"
-  onClick={() => { 
-    onAdd(name, keyr); 
-  }}>
+      onClick={() => { 
+      onAdd(name, keyd, keyr); 
+      }}>
           <ImPlus />
         </button>
         <button className="btnAddRemove imMinus"
          onClick={() => { 
-          onMin(name, keyr); 
+          onMin(name, keyd, keyr); 
         }}>
           <ImMinus />
         </button>
-      </div> : <></>}
+      </div>
       
     </li>
   );

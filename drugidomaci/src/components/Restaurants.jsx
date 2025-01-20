@@ -26,7 +26,7 @@ const Restaurants = ({ restaurants }) => {
         </button>
         <div className="restaurants-carousel" ref={carouselRef}>
           {restaurants.map((restaurant) => (
-            <OneRestaurant key={restaurant.id} restaurant={restaurant} />
+            <OneRestaurant key={restaurant.id} restaurant={restaurant} cat={0} />
           ))}
         </div>
         <button className="carousel-arrow right" onClick={scrollRight}>
@@ -38,4 +38,5 @@ const Restaurants = ({ restaurants }) => {
 };
 
 export default Restaurants;
+
 

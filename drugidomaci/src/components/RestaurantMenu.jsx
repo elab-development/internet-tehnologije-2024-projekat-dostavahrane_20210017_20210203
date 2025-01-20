@@ -65,7 +65,7 @@ const RestaurantMenu = ({ dishes, restaurants, restaurantdishes, onAdd, onMin })
         <ul className="menu-list">
           {sortedDishes.map((dish) => (
             <MenuItem
-              key={dish.id}
+              keyd={dish.id}
               keyr={restaurant.id}
               name={dish.name}
               description={dish.description}

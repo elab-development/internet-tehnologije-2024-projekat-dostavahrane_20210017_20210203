@@ -844,6 +844,27 @@ h1 {
   color: #007bff;
 }
 
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  font-size: 18px;
+}
+
+.cart-total h3 {
+  margin: 0;
+}
+
+.cart-total-price {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+
+
 .sort-controls {
   display: flex;
   align-items: center;
