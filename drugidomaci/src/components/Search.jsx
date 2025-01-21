@@ -65,7 +65,7 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
                   <div
                     key={dish.id}
                     className="result-item clickable"
-                    onClick={() => navigate(`/restaurants/${dish.restaurant_id}/menu`)} 
+                    onClick={() => navigate(`/restaurants/${dish.restaurant_id}`)} 
                   >
                     <h4>{dish.name}</h4>
                     <p>{dish.description}</p>
@@ -83,7 +83,7 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
                   <div
                     key={restaurant.id}
                     className="result-item clickable"
-                    onClick={() => navigate(`/restaurants/${restaurant.id}/menu`)} 
+                    onClick={() => navigate(`/restaurants/${restaurant.id}`)} 
                   >
                     <h4>{restaurant.name}</h4>
                     <p>{restaurant.description}</p>

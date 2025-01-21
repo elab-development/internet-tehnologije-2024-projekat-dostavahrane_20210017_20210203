@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
+import useMenu from "../hooks/UseMenu"; // Import kuke
 
 const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, onMin }) => {
   const { id } = useParams();
@@ -15,54 +16,80 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
       return {
         ...dish,
         price: item.price,
-        amount: item.amount
+        amount: item.amount,
       };
     });
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-     const handleAddDish = (name, keyd, keyr) => {
-        if (!user) {
-          navigate("/login");
-        } else {
-          onAdd(name, keyd, keyr);
-        }
-      };
-    
-      const handleRemoveDish = (name, keyd, keyr) => {
-        if (!user) {
-          navigate("/login");
-        } else {
-          onMin(name, keyd, keyr);
-        }
-      };
+  const handleAddDish = (name, keyd, keyr) => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      onAdd(name, keyd, keyr);
+    }
+  };
 
-  
-  const [sortOption, setSortOption] = useState("");
+  const handleRemoveDish = (name, keyd, keyr) => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      onMin(name, keyd, keyr);
+    }
+  };
 
-  
-  const sortedDishes = [...filteredDishes].sort((a, b) => {
-    if (sortOption === "price-asc") {
-      return a.price - b.price;
-    }
-    if (sortOption === "price-desc") {
-      return b.price - a.price;
-    }
-    if (sortOption === "name-asc") {
-      return a.name.localeCompare(b.name);
-    }
-    if (sortOption === "name-desc") {
-      return b.name.localeCompare(a.name);
-    }
-    return 0;
-  });
+  // Koristimo `useMenu`
+  const {
+    paginatedDishes,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+    sortOption,
+    setSortOption,
+    searchQuery,
+    setSearchQuery,
+    priceFilter,
+    setPriceFilter,
+  } = useMenu(filteredDishes, 5);
 
   return (
     <div className="menu-container">
       <div className="menu-header">
         <h2>{restaurant ? `${restaurant.name} - Meni` : "Meni"}</h2>
 
-       
+        {/* Filtriranje */}
+        <div className="filter-controls">
+          <label htmlFor="search">Pretraži jela: </label>
+          <input
+            id="search"
+            type="text"
+            placeholder="Unesite naziv jela..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        {/* Filtriranje po ceni */}
+        <div className="price-filter-controls">
+          <label htmlFor="minPrice">Cena od: </label>
+          <input
+            id="minPrice"
+            type="number"
+            placeholder="Min cena"
+            value={priceFilter.min}
+            onChange={(e) => setPriceFilter({ ...priceFilter, min: e.target.value })}
+          />
+          <label htmlFor="maxPrice">do: </label>
+          <input
+            id="maxPrice"
+            type="number"
+            placeholder="Max cena"
+            value={priceFilter.max}
+            onChange={(e) => setPriceFilter({ ...priceFilter, max: e.target.value })}
+          />
+        </div>
+
+        {/* Sortiranje */}
         <div className="sort-controls">
           <label htmlFor="sort">Sortiraj prema: </label>
           <select
@@ -79,9 +106,10 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
         </div>
       </div>
 
-      {sortedDishes.length > 0 ? (
+      {/* Lista jela */}
+      {paginatedDishes.length > 0 ? (
         <ul className="menu-list">
-          {sortedDishes.map((dish) => (
+          {paginatedDishes.map((dish) => (
             <MenuItem
               keyd={dish.id}
               keyr={restaurant.id}
@@ -98,8 +126,28 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
       ) : (
         <p className="no-dishes">Nema dostupnih jela za ovaj restoran...</p>
       )}
+
+      {/* Paginacija */}
+      <div className="pagination-controls">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Prethodna
+        </button>
+        <span>
+          Stranica {currentPage} od {totalPages}
+        </span>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Sledeća
+        </button>
+      </div>
     </div>
   );
 };
 
 export default RestaurantMenu;
+

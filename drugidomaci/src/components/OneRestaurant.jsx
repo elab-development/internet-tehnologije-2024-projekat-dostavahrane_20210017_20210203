@@ -7,7 +7,7 @@ function OneRestaurant({restaurant, cat}) {
     const navigate = useNavigate();
 
     const handleRestaurantClick = () => {
-    navigate(`/restaurants/${restaurant.id}/menu`);
+    navigate(`/restaurants/${restaurant.id}`);
   };
 
    return (
