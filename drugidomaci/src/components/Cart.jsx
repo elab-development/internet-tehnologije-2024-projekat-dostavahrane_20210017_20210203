@@ -57,23 +57,27 @@ function Cart({ dishes, restaurantdishes, items, onAdd, onMin, onPlaceOrder, use
       </ul>
 
       {cartItems.length > 0 && (
-        <div className="cart-total">
-          <h3>Ukupno:</h3>
-          <p className="cart-total-price">
-            {cartItems
-              .reduce((total, item) => {
-                const restaurantDish = restaurantdishes.find(
-                  (rdish) =>
-                    rdish.dish_id === item.dish_id &&
-                    rdish.restaurant_id === item.restaurant_id
-                );
-                return total + (restaurantDish?.price || 0) * item.quantity;
-              }, 0)
-              .toFixed(2)}{" "}
-            RSD
-          </p>
-        </div>
-      )}
+  <div className="cart-total">
+    <h3>Ukupno:</h3>
+    <p className="cart-total-price">
+      {(() => {
+        const totalWithoutDelivery = cartItems.reduce((total, item) => {
+          const restaurantDish = restaurantdishes.find(
+            (rdish) =>
+              rdish.dish_id === item.dish_id &&
+              rdish.restaurant_id === item.restaurant_id
+          );
+          return total + (restaurantDish?.price || 0) * item.quantity;
+        }, 0);
+
+        const deliveryFee = cartItems.length <= 2 ? 200 : 250;
+        const totalWithDelivery = totalWithoutDelivery + deliveryFee;
+
+        return `${totalWithDelivery.toFixed(2)} RSD (Dostava: ${deliveryFee} RSD)`;
+      })()}
+    </p>
+  </div>
+)}
 
       {cartItems.length > 0 && (
         <div className="order-form">

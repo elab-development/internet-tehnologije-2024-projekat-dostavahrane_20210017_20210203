@@ -41,7 +41,7 @@ function App() {
   const handleRegister = (formData) => {
     setRegisteredUsers((prevUsers) => {
       const updatedUsers = [...prevUsers, formData];
-      localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers)); // Sačuvaj registrovane korisnike
+      localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
       return updatedUsers;
     });
   };
@@ -53,7 +53,7 @@ function App() {
     if (foundUser) {
       setUser(foundUser);
       setIsLoggedIn(true);
-      localStorage.setItem("user", JSON.stringify(foundUser)); // Sačuvaj trenutnog korisnika
+      localStorage.setItem("user", JSON.stringify(foundUser));
     } else {
       alert("Email ili lozinka nisu ispravni ili korisnik nije registrovan!");
     }
@@ -62,7 +62,7 @@ function App() {
   const handleLogout = () => {
     setUser(null);
     setIsLoggedIn(false);
-    localStorage.removeItem("user"); // Ukloni podatke o trenutnom korisniku
+    localStorage.removeItem("user");
   };
 
   const handlePlaceOrder = () => {
@@ -70,6 +70,11 @@ function App() {
       const updatedUser = { ...user, orders: (user.orders || 0) + 1 };
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
+      setRegisteredUsers((prevUsers) =>
+        prevUsers.map((u) =>
+          u.email === user.email ? updatedUser : u
+        )
+      );
     }
     setCartItems([]);
   };
@@ -82,7 +87,7 @@ function App() {
         email:"borneo@gmail.com",
         address:"Njegoseva",
         phone:"011333444",
-        description:"250din - 30min",
+        description:"Najbolja picerija u Pancevu.",
         pic: borneopica,
         categories: [1,2,3,4,5,8,9],
     },
@@ -92,7 +97,7 @@ function App() {
         email:"vetrenjaca@gmail.com",
         address:"Tamiski kej",
         phone:"011222333",
-        description:"200din - 35min",  
+        description:"Najbolji restoran u Pancevu.",  
         pic: karadjordjeva,
         categories: [2,3,6,8,9],
     },
@@ -102,7 +107,7 @@ function App() {
         email:"hilton@gmail.com",
         address:"Beogradska ulica",
         phone:"013343555",
-        description:"400din - 45min", 
+        description:"Najbolji restoran u Beogradu.", 
         pic: hiltonbiftek,
         categories: [1,2,3,5,7,8,9],
     },
@@ -110,9 +115,9 @@ function App() {
         id:4,
         name:"Poco loco",
         email:"pocoloco@gmail.com",
-        address:"Brace jovanovica",
+        address:"Brace Jovanovica",
         phone:"013343777",
-        description:"300din - 40min",  
+        description:"Lep restoran sa velikim izborom hrane u Pancevu.",  
         pic: pasta, 
         categories: [1,2,3,4,6,8,9],
     }
