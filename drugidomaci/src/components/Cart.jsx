@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MenuItem from "./MenuItem";
 
-function Cart({ dishes, restaurantdishes, items, onAdd, onMin, onPlaceOrder, userData }) {
+function Cart({ dishes, restaurants, restaurantdishes, items, onAdd, onMin, onPlaceOrder }) {
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
@@ -32,6 +32,7 @@ function Cart({ dishes, restaurantdishes, items, onAdd, onMin, onPlaceOrder, use
               (rd) => rd.dish_id === item.dish_id && rd.restaurant_id === item.restaurant_id
             );
             const dish = dishes.find((d) => d.id === item.dish_id);
+            const restaurant = restaurants.find((r) => r.id === item.restaurant_id);
 
             if (!restaurantDish || !dish) return null;
 
@@ -41,6 +42,7 @@ function Cart({ dishes, restaurantdishes, items, onAdd, onMin, onPlaceOrder, use
                   keyd={item.dish_id}
                   name={item.name}
                   description={dish.description}
+                  restaurantname={restaurant.name}
                   price={restaurantDish.price}
                   amount={item.quantity}
                   inCart={0}

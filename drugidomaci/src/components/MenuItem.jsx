@@ -1,11 +1,12 @@
 import React from "react";
 import { ImPlus, ImMinus } from "react-icons/im";
 
-const MenuItem = ({ name, description, price, onAdd, onMin, inCart, keyd, keyr, amount }) => {
+const MenuItem = ({ name, description, restaurantname, price, onAdd, onMin, inCart, keyd, keyr, amount }) => {
   
   return (
     <li className={inCart === 1 ? "menu-item" : "menu-item-in-cart" }>
       <h3>{name}</h3>
+      {inCart === 0 && <p>Restoran: {restaurantname}</p>}
       <p>{description}</p>
       <p className="price">{price} RSD</p>
       {inCart === 0 ? <p>{amount}</p> : <></>}

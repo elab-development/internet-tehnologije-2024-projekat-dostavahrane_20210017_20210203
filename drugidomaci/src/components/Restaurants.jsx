@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import OneRestaurant from './OneRestaurant';
+import MyMap from './MyMap';
 
 const Restaurants = ({ restaurants }) => {
   const carouselRef = useRef(null);
@@ -33,6 +34,7 @@ const Restaurants = ({ restaurants }) => {
           &#10095;
         </button>
       </div>
+      <MyMap/>
     </div>
   );
 };

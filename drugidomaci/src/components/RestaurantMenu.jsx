@@ -114,6 +114,7 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
               keyd={dish.id}
               keyr={restaurant.id}
               name={dish.name}
+              restaurantname={restaurant.name}
               description={dish.description}
               price={dish.price}
               amount={dish.amount}

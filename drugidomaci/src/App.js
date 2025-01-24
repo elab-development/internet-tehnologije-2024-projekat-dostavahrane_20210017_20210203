@@ -86,7 +86,7 @@ function App() {
         name:"Borneo",
         email:"borneo@gmail.com",
         address:"Njegoseva",
-        phone:"011333444",
+        phone:"013333444",
         description:"Najbolja picerija u Pancevu.",
         pic: borneopica,
         categories: [1,2,3,4,5,8,9],
@@ -96,7 +96,7 @@ function App() {
         name:"Vetrenjača",
         email:"vetrenjaca@gmail.com",
         address:"Tamiski kej",
-        phone:"011222333",
+        phone:"013222333",
         description:"Najbolji restoran u Pancevu.",  
         pic: karadjordjeva,
         categories: [2,3,6,8,9],
@@ -106,7 +106,7 @@ function App() {
         name:"Hilton",
         email:"hilton@gmail.com",
         address:"Beogradska ulica",
-        phone:"013343555",
+        phone:"011343555",
         description:"Najbolji restoran u Beogradu.", 
         pic: hiltonbiftek,
         categories: [1,2,3,5,7,8,9],
@@ -334,7 +334,7 @@ function App() {
         <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu user={user} restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
-        <Route path="/cart" element={isLoggedIn ? <Cart dishes={dishes} restaurantdishes={restaurantdishes} items={cartItems} onAdd={addDish} onMin={removeDish} onPlaceOrder={handlePlaceOrder} userData={user}/>: <Login onLogin={handleLogin} />}></Route>
+        <Route path="/cart" element={isLoggedIn ? <Cart dishes={dishes} restaurants={restaurants} restaurantdishes={restaurantdishes} items={cartItems} onAdd={addDish} onMin={removeDish} onPlaceOrder={handlePlaceOrder} />: <Login onLogin={handleLogin} />}></Route>
       </Routes>
     </Router>
   </div>
