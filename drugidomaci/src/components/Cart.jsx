@@ -37,21 +37,22 @@ function Cart({ dishes, restaurants, restaurantdishes, items, onAdd, onMin, onPl
             if (!restaurantDish || !dish) return null;
 
             return (
-              <div key={item.dish_id}>
-                <MenuItem
-                  keyd={item.dish_id}
-                  name={item.name}
-                  description={dish.description}
-                  restaurantname={restaurant.name}
-                  price={restaurantDish.price}
-                  amount={item.quantity}
-                  inCart={0}
-                  keyr={item.restaurant_id}
-                  onAdd={onAdd}
-                  onMin={onMin}
-                />
-              </div>
-            );
+  <div key={`${item.dish_id}-${item.restaurant_id}`}>
+    <MenuItem
+      keyd={item.dish_id}
+      name={item.name}
+      description={dish.description}
+      restaurantname={restaurant.name}
+      price={restaurantDish.price}
+      amount={item.quantity}
+      inCart={0}
+      keyr={item.restaurant_id}
+      onAdd={onAdd}
+      onMin={onMin}
+    />
+  </div>
+);
+
           })
         ) : (
           <li>Korpa je prazna.</li>

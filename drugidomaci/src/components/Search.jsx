@@ -62,17 +62,17 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
               <div>
                 <h3>Jela:</h3>
                 {filteredDishes.map(dish => (
-                  <div
-                    key={dish.id}
-                    className="result-item clickable"
-                    onClick={() => navigate(`/restaurants/${dish.restaurant_id}`)} 
-                  >
-                    <h4>{dish.name}</h4>
-                    <p>{dish.description}</p>
-                    <p className="result-price">Cena: {dish.price} RSD</p>
-                    <p>Restoran: {dish.restaurant.name}</p>
-                  </div>
-                ))}
+  <div
+    key={`${dish.dish_id}-${dish.restaurant_id}`} // ← OVO je jedinstveni ključ
+    className="result-item clickable"
+    onClick={() => navigate(`/restaurants/${dish.restaurant_id}`)} 
+  >
+    <h4>{dish.name}</h4>
+    <p>{dish.description}</p>
+    <p className="result-price">Cena: {dish.price} RSD</p>
+    <p>Restoran: {dish.restaurant.name}</p>
+  </div>
+))}
               </div>
             )}
 
@@ -80,15 +80,15 @@ const Search = ({ restaurantDishes, dishes, restaurants }) => {
               <div>
                 <h3>Restorani:</h3>
                 {filteredRestaurants.map(restaurant => (
-                  <div
-                    key={restaurant.id}
-                    className="result-item clickable"
-                    onClick={() => navigate(`/restaurants/${restaurant.id}`)} 
-                  >
-                    <h4>{restaurant.name}</h4>
-                    <p>{restaurant.description}</p>
-                  </div>
-                ))}
+  <div
+    key={restaurant.id} // ← Ovde ostaje isto jer su restorani jedinstveni
+    className="result-item clickable"
+    onClick={() => navigate(`/restaurants/${restaurant.id}`)} 
+  >
+    <h4>{restaurant.name}</h4>
+    <p>{restaurant.description}</p>
+  </div>
+))}
               </div>
             )}
 

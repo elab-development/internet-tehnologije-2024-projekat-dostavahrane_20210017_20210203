@@ -110,19 +110,20 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
       {paginatedDishes.length > 0 ? (
         <ul className="menu-list">
           {paginatedDishes.map((dish) => (
-            <MenuItem
-              keyd={dish.id}
-              keyr={restaurant.id}
-              name={dish.name}
-              restaurantname={restaurant.name}
-              description={dish.description}
-              price={dish.price}
-              amount={dish.amount}
-              onAdd={handleAddDish}
-              onMin={handleRemoveDish}
-              inCart={1}
-            />
-          ))}
+  <MenuItem
+    key={`${restaurant.id}-${dish.id}`} 
+    keyd={dish.id}
+    keyr={restaurant.id}
+    name={dish.name}
+    restaurantname={restaurant.name}
+    description={dish.description}
+    price={dish.price}
+    amount={dish.amount}
+    onAdd={handleAddDish}
+    onMin={handleRemoveDish}
+    inCart={1}
+  />
+))}
         </ul>
       ) : (
         <p className="no-dishes">Nema dostupnih jela za ovaj restoran...</p>
