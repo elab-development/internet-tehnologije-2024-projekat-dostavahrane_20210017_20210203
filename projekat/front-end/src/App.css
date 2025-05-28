@@ -3,6 +3,7 @@
   top: 0;
   z-index: 1000;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   background-color: #f5e9d7;
@@ -491,7 +492,7 @@ p {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: rgba(249, 249, 249, 0.8); /* Lagana pozadina za bolju vidljivost */
+  background-color: rgba(249, 249, 249, 0.8);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
@@ -585,7 +586,7 @@ p {
   font-size: 14px;
   color: #555;
 }
-/* Osnovne postavke za Search komponentu */
+
 .search-container {
   margin: 20px auto;
   padding: 20px;
@@ -593,7 +594,7 @@ p {
   font-family: Arial, sans-serif;
 }
 
-/* Stilizovani input za pretragu */
+
 .search-input {
   width: 100%;
   padding: 10px;
@@ -609,16 +610,16 @@ p {
   border-color: #4CAF50;
 }
 
-/* Stilizovanje rezultata */
+
 .results-container {
-  display: none; /* Na početku rezultati nisu vidljivi */
+  display: none; 
 }
 
 .results-container.active {
   display: block;
 }
 
-/* Stilizovanje restorana i jela */
+
 .result-item {
   border: 1px solid #f0f0f0;
   padding: 15px;
@@ -632,7 +633,7 @@ p {
   background-color: #e0f7e0;
 }
 
-/* Za imena restorana i jela */
+
 .result-item h4 {
   font-size: 18px;
   font-weight: bold;
@@ -644,7 +645,7 @@ p {
   color: #555;
 }
 
-/* Cene i specifične informacije */
+
 .result-price {
   font-size: 16px;
   color: #4CAF50;
@@ -1029,7 +1030,7 @@ h1 {
   font-size: 14px;
 }
 
-/* Paginacija */
+
 .pagination-controls {
   display: flex;
   justify-content: center;

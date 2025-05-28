@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Register({ onRegister }) {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    password_conf: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -20,21 +22,38 @@ function Register({ onRegister }) {
     return passwordRegex.test(password);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+  e.preventDefault();
 
-    if (!validatePassword(formData.password)) {
-      setError(
-        "Lozinka mora imati najmanje 8 karaktera, jedno veliko, jedno malo slovo i jedan broj."
-      );
-      return;
-    }
+  if (!validatePassword(formData.password)) {
+    setError(
+      "Lozinka mora imati najmanje 8 karaktera, jedno veliko, jedno malo slovo, jedan broj i specijalan znak."
+    );
+    return;
+  }
 
-    onRegister(formData);
-    alert("Uspešna registracija! Sada se možete prijaviti.");
-    navigate("/login");
-  };
+  if (formData.password !== formData.password_conf) {
+    setError("Lozinka i potvrda lozinke se ne poklapaju.");
+    return;
+  }
 
+
+  axios.post("http://127.0.0.1:8000/api/register", formData)
+    .then((res) => {
+      console.log("Uspešna registracija:", res.data);
+
+      alert("Uspešna registracija! Sada se možete prijaviti.");
+      navigate("/login");
+    })
+    .catch((error) => {
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        console.error("Greška prilikom registracije:", error);
+        setError("Došlo je do greške. Pokušajte ponovo.");
+      }
+    });
+};
   return (
     <div className="register-container">
       <h1>Registruj se</h1>
@@ -71,6 +90,18 @@ function Register({ onRegister }) {
             name="password"
             placeholder="Unesite lozinku"
             value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Potvrda lozinke:</label>
+          <input
+            type="password"
+            id="password_conf"
+            name="password_conf"
+            placeholder="Unesite ponovo lozinku"
+            value={formData.password_conf}
             onChange={handleChange}
             required
           />
