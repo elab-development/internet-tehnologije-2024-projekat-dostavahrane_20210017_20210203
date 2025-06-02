@@ -14,5 +14,10 @@ class Category extends Model
     {
     return $this->hasMany(Dish::class);
     }
+ public function restaurants()
+{
+    return $this->belongsToMany(Restaurant::class, 'restaurant_categories');
+}
+
 
 }

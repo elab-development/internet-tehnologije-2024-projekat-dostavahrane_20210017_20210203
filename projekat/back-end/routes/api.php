@@ -2,6 +2,7 @@
 use App\Models\User;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RestaurantDishController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('restaurants', [RestaurantController::class, 'index']);
+Route::get('categories', [CategoryController::class, 'index']);
 Route::get('users', [UserController::class, 'index']);
 
 

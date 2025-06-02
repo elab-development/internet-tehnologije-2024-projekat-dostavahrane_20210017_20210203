@@ -2,9 +2,11 @@ import React from 'react';
 import OneCategory from './OneCategory';
 import PopularDishesCarousel from './PopularDishesCarousel';
 import { useState } from "react";
+import { useEffect } from "react";
 import OneRestaurant from './OneRestaurant';
+import axios from 'axios';
 
-const Categories = ({ categories,dishes,restaurants }) => {
+const Categories = ({ dishes,restaurants }) => {
   const popularDishes = dishes.filter((dish) => dish.isPopular);
   const [displayedRestaurants, setDisplayedRestaurants] = useState([]);
   const handleCategoryClick = (categoryId) => {
@@ -13,6 +15,21 @@ const Categories = ({ categories,dishes,restaurants }) => {
     );
     setDisplayedRestaurants(filteredRestaurants);
   };
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/categories")
+      .then((res) => {
+        console.log(res.data);
+        setCategories(res.data); 
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Greška pri dohvaćanju kategorija", err);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div>
