@@ -13,8 +13,8 @@ class RestaurantDishController extends Controller
      */
     
     public function index()
-    {
-        $restaurantDishes = RestaurantDish::with(['restaurant', 'dish.category'])->get();
+{
+    $restaurantDishes = RestaurantDish::with(['restaurant', 'dish.category'])->get();
 
     if ($restaurantDishes->isEmpty()) {
         return response()->json([
@@ -22,14 +22,10 @@ class RestaurantDishController extends Controller
         ], 404);
     }
 
-  
-    $resource = RestaurantDishResource::collection($restaurantDishes);
+    // Vrati kolekciju direktno kao JSON — Laravel će to lepo serijalizovati
+    return RestaurantDishResource::collection($restaurantDishes);
+}
 
-   
-    return response()->json([
-        'restaurant_dishes' => $resource->response()->getData(true)['data']
-    ]);
-    }
 
     public function getByRestaurant($id)
     {
