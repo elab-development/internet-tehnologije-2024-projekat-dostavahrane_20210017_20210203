@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ExportController;
-
+use App\Http\Controllers\DishController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,7 +18,8 @@ Route::get('/user', function (Request $request) {
 Route::get('restaurants', [RestaurantController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 Route::get('users', [UserController::class, 'index']);
-
+Route::get('/restaurantcategories', [RestaurantController::class, 'withCategories']);
+Route::get('/dishes', [DishController::class, 'index']);
 
 
 Route::resource('restaurantdishes', RestaurantDishController::class);

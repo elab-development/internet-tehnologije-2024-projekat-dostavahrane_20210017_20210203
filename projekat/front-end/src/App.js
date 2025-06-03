@@ -320,8 +320,8 @@ function App() {
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/profile" element={isLoggedIn ? <UserProfile userData={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}/>
-        <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
-        <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
+        <Route path="/restaurants" element={<Restaurants />}></Route>
+        <Route path="/categories" element={<Categories />}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu user={user} restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
         <Route path="/cart" element={isLoggedIn ? <Cart dishes={dishes} restaurants={restaurants} restaurantdishes={restaurantdishes} items={cartItems} onAdd={addDish} onMin={removeDish} onPlaceOrder={handlePlaceOrder} />: <Login onLogin={handleLogin} />}></Route>

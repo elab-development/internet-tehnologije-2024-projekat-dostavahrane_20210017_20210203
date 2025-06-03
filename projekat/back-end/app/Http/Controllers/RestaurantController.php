@@ -21,6 +21,12 @@ class RestaurantController extends Controller
         return response()->json($restaurants, 200);
     }
 
+    public function withCategories()
+{
+    $restaurants = Restaurant::with('categories')->get();
+    return response()->json($restaurants);
+}
+
     /**
      * Show the form for creating a new resource.
      */

@@ -4,6 +4,7 @@ const PopularDishesCarousel = ({ dishes }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    if (dishes.length === 0) return; // nema jela, ne pravi interval
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % dishes.length);
     }, 6000);
@@ -19,6 +20,12 @@ const PopularDishesCarousel = ({ dishes }) => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % dishes.length);
   };
 
+  if (dishes.length === 0) {
+    return <p>Nema jela za prikaz.</p>;
+  }
+
+  const currentDish = dishes[currentIndex];
+
   return (
     <div className="dish-carousel-container">
       <button className="dish-carousel-btn left-btn" onClick={goToPrevious}>
@@ -26,13 +33,14 @@ const PopularDishesCarousel = ({ dishes }) => {
       </button>
       <div className="dish-carousel-slide">
         <img
-          src={dishes[currentIndex].pic}
-          alt={dishes[currentIndex].name}
+          src={currentDish.pic ? currentDish.pic : '/photos/default.jpg'}
+          alt={currentDish.name || 'Jelo'}
           className="dish-carousel-image"
+          onError={(e) => { e.target.src = '/photos/default.jpg'; }} // fallback ako slika ne postoji
         />
         <div className="dish-carousel-text">
-          <h3>{dishes[currentIndex].name}</h3>
-          <p>{dishes[currentIndex].description}</p>
+          <h3>{currentDish.name}</h3>
+          <p>{currentDish.description}</p>
         </div>
       </div>
       <button className="dish-carousel-btn right-btn" onClick={goToNext}>
