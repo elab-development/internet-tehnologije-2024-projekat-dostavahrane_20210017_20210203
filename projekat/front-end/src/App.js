@@ -21,16 +21,10 @@ import Breadcrumbs from "./components/Breadcrumbs";
 function App() {
   let [cartNum, setCartNum] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   useEffect(() => {
-    const storedUsers = localStorage.getItem("registeredUsers");
-    if (storedUsers) {
-      setRegisteredUsers(JSON.parse(storedUsers));
-    }
-  
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       setUser(JSON.parse(loggedInUser));
@@ -38,25 +32,19 @@ function App() {
     }
   }, []);
   
-  const handleRegister = (formData) => {
-    setRegisteredUsers((prevUsers) => {
-      const updatedUsers = [...prevUsers, formData];
-      localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
-      return updatedUsers;
-    });
-  };
   
   const handleLogin = (backendResponse) => {
   if (backendResponse.access_token) {
     const userData = {
       token: backendResponse.access_token,
       token_type: backendResponse.token_type,
-      username: backendResponse.username,  // dodaj username
+      username: backendResponse.username, 
     };
 
     setUser(userData);
     setIsLoggedIn(true);
     localStorage.setItem("user", JSON.stringify(userData));
+    sessionStorage.setItem("auth_token", backendResponse.access_token);
   } else {
     alert("Nevalidan odgovor sa servera.");
   }
@@ -64,21 +52,19 @@ function App() {
 
   
   const handleLogout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
-    localStorage.removeItem("user");
-  };
+  setUser(null);
+  setIsLoggedIn(false);
+  setCartItems([]);
+  setCartNum(0); 
+  localStorage.removeItem("user");
+  window.sessionStorage.removeItem("auth_token");
+};
 
   const handlePlaceOrder = () => {
     if (user) {
       const updatedUser = { ...user, orders: (user.orders || 0) + 1 };
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
-      setRegisteredUsers((prevUsers) =>
-        prevUsers.map((u) =>
-          u.email === user.email ? updatedUser : u
-        )
-      );
     }
     setCartItems([]);
   };
@@ -332,10 +318,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route path="/register" element={<Register onRegister={handleRegister} />} />
+        <Route path="/register" element={<Register/>} />
         <Route path="/profile" element={isLoggedIn ? <UserProfile userData={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}/>
-        <Route path="/restaurants" element={<Restaurants />} />
-        <Route path="/categories" element={<Categories dishes={dishes} restaurants={restaurants}/>}></Route>
+        <Route path="/restaurants" element={<Restaurants restaurants={restaurants}/>}></Route>
+        <Route path="/categories" element={<Categories categories={categories} dishes={dishes} restaurants={restaurants}/>}></Route>
         <Route path="/search" element={<Search restaurants={restaurants} restaurantDishes={restaurantdishes} dishes={dishes}/>}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu user={user} restaurants={restaurants} dishes={dishes} restaurantdishes={restaurantdishes} onAdd={addDish} onMin={removeDish}/>} />
         <Route path="/cart" element={isLoggedIn ? <Cart dishes={dishes} restaurants={restaurants} restaurantdishes={restaurantdishes} items={cartItems} onAdd={addDish} onMin={removeDish} onPlaceOrder={handlePlaceOrder} />: <Login onLogin={handleLogin} />}></Route>
