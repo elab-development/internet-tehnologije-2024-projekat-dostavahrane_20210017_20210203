@@ -46,9 +46,15 @@ class RestaurantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Restaurant $restaurant)
+    public function show($id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+
+        if (!$restaurant) {
+            return response()->json(['error' => 'Restoran nije pronađen'], 404);
+        }
+
+        return response()->json(['restaurant' => $restaurant]);
     }
 
     /**

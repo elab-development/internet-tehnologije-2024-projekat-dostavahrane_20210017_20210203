@@ -4,7 +4,7 @@ const PopularDishesCarousel = ({ dishes }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (dishes.length === 0) return; // nema jela, ne pravi interval
+    if (dishes.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % dishes.length);
     }, 6000);
@@ -36,7 +36,7 @@ const PopularDishesCarousel = ({ dishes }) => {
           src={currentDish.pic ? currentDish.pic : '/photos/default.jpg'}
           alt={currentDish.name || 'Jelo'}
           className="dish-carousel-image"
-          onError={(e) => { e.target.src = '/photos/default.jpg'; }} // fallback ako slika ne postoji
+          onError={(e) => { e.target.src = '/photos/default.jpg'; }}
         />
         <div className="dish-carousel-text">
           <h3>{currentDish.name}</h3>

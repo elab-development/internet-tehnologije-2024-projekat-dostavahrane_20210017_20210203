@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
-import useMenu from "../hooks/UseMenu"; // Import kuke
+import useMenu from "../hooks/UseMenu";
+import axios from "axios";
 
-const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, onMin }) => {
+const RestaurantMenu = ({ user, onAdd, onMin }) => {
   const { id } = useParams();
   const restaurantId = parseInt(id, 10);
 
-  const restaurant = restaurants.find((restaurant) => restaurant.id === restaurantId);
-
-  const filteredDishes = restaurantdishes
-    .filter((item) => item.restaurant_id === restaurantId)
-    .map((item) => {
-      const dish = dishes.find((d) => d.id === item.dish_id);
-      return {
-        ...dish,
-        price: item.price,
-        amount: item.amount,
-      };
-    });
+  const [dishes, setDishes] = useState([]);
+  const [restaurant, setRestaurant] = useState(null);
 
   const navigate = useNavigate();
+
+ useEffect(() => {
+  axios.get(`http://localhost:8000/api/restaurants/${restaurantId}`)
+    .then((restaurantRes) => {
+      setRestaurant(restaurantRes.data.restaurant);
+      return axios.get(`http://localhost:8000/api/restaurants/${restaurantId}/dishes`);
+    })
+    .then((dishesRes) => {
+      const transformed = dishesRes.data.restaurant_dishes.map((item) => ({
+        id: item.dish.id,
+        name: item.dish.name,
+        description: item.dish.description,
+        category: item.dish.category,
+        price: item.price,
+        amount: 1,
+      }));
+      setDishes(transformed);
+    })
+    .catch((err) => {
+      console.error("Greška pri učitavanju:", err);
+    });
+}, [restaurantId]);
 
   const handleAddDish = (name, keyd, keyr) => {
     if (!user) {
@@ -38,8 +51,7 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
     }
   };
 
-  // Koristimo `useMenu`
-  const {
+    const {
     paginatedDishes,
     totalPages,
     currentPage,
@@ -50,7 +62,7 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
     setSearchQuery,
     priceFilter,
     setPriceFilter,
-  } = useMenu(filteredDishes, 5);
+  } = useMenu(dishes, 5);
 
   return (
     <div className="menu-container">
@@ -111,7 +123,7 @@ const RestaurantMenu = ({ user, dishes, restaurants, restaurantdishes, onAdd, on
         <ul className="menu-list">
           {paginatedDishes.map((dish) => (
   <MenuItem
-    key={`${restaurant.id}-${dish.id}`} // ili samo dish.id ako je jedinstven
+    key={`${restaurant.id}-${dish.id}`}
     keyd={dish.id}
     keyr={restaurant.id}
     name={dish.name}

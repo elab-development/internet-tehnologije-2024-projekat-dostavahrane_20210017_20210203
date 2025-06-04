@@ -46,7 +46,7 @@ const Search = () => {
   useEffect(() => {
     axios.get("http://localhost:8000/api/restaurantdishes")
       .then((res) => {
-        setRestaurantDishes(res.data.data); // Ovaj deo proveri da li API vraća ovako
+        setRestaurantDishes(res.data.data);
       })
       .catch((err) => {
         console.error("Greška pri dohvaćanju veza jela i restorana:", err);

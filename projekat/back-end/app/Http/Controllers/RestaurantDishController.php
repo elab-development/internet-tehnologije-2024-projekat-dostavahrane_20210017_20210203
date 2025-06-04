@@ -22,7 +22,7 @@ class RestaurantDishController extends Controller
         ], 404);
     }
 
-    // Vrati kolekciju direktno kao JSON — Laravel će to lepo serijalizovati
+  
     return RestaurantDishResource::collection($restaurantDishes);
 }
 

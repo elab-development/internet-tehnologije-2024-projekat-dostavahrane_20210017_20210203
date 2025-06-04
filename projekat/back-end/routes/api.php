@@ -20,6 +20,7 @@ Route::get('categories', [CategoryController::class, 'index']);
 Route::get('users', [UserController::class, 'index']);
 Route::get('/restaurantcategories', [RestaurantController::class, 'withCategories']);
 Route::get('/dishes', [DishController::class, 'index']);
+Route::get('/restaurants/{id}', [RestaurantController::class, 'show']);
 
 
 Route::resource('restaurantdishes', RestaurantDishController::class);
