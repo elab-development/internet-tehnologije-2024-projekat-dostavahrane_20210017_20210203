@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'preparing', 'on_the_way', 'delivered', 'cancelled'])
                   ->default('pending');
             $table->text('delivery_address');
+            $table->text('phone_number');
             $table->timestamps();
         });
     }

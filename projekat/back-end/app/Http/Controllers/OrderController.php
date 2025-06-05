@@ -37,95 +37,100 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-  
-        $validated = $request->validate([
-            'restaurant_name' => 'required|string|max:255',
-            'items' => 'required|array',
-            'items.*.name' => 'required|string|max:255',
-            'items.*.quantity' => 'required|integer|min:1',
-            'delivery_address' => 'required|string|max:255',
+{
+    $validated = $request->validate([
+        'items' => 'required|array',
+        'items.*.restaurant_id' => 'required|integer',
+        'items.*.dish_id' => 'required|integer',
+        'items.*.quantity' => 'required|integer|min:1',
+        'delivery_address' => 'required|string|max:255',
+        'phone_number' => 'required|string|regex:/^06\d{7,}$/',
+    ]);
+
+    $user = Auth::user();
+
+    $deliveryAddress = $request->delivery_address;
+    $phoneNumber = $validated['phone_number'];
+
+    DB::beginTransaction();
+
+    try {
+        $totalPrice = 0;
+        $orderItems = [];
+
+        foreach ($validated['items'] as $item) {
+
+            $dish = Dish::find($item['dish_id']);
+            if (!$dish) {
+                throw new \Exception("Dish with ID '{$item['dish_id']}' not found.");
+            }
+
+            $restaurant = Restaurant::find($item['restaurant_id']);
+            if (!$restaurant) {
+                throw new \Exception("Restaurant with ID '{$item['restaurant_id']}' not found.");
+            }
+
+            $restaurantDish = RestaurantDish::where('dish_id', $dish->id)
+                ->where('restaurant_id', $restaurant->id)
+                ->first();
+
+            if (!$restaurantDish) {
+                throw new \Exception("Dish '{$dish->name}' not available in restaurant '{$restaurant->name}'.");
+            }
+
+            $price = $restaurantDish->price;
+            $quantity = $item['quantity'];
+
+            $orderItems[] = [
+                'restaurant_id' => $restaurant->id,
+                'dish_id' => $dish->id,
+                'quantity' => $quantity,
+                'item_price' => $price,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            $totalPrice += $price * $quantity;
+        }
+
+        // Dodaj cenu dostave prema uslovu
+        $deliveryCost = count($validated['items']) <= 2 ? 200 : 250;
+        $totalPrice += $deliveryCost;
+
+        $order = Order::create([
+            'user_id' => $user->id,
+            'total_price' => $totalPrice,
+            'delivery_address' => $deliveryAddress,
+            'phone_number' => $phoneNumber,
         ]);
 
-        $user = Auth::user();
-
-        $deliveryAddress = $request->delivery_address;
-
-        $restaurantName = ucwords(strtolower($validated['restaurant_name']));
-        $restaurant = Restaurant::where('name', $restaurantName)->first();
-
-        if (!$restaurant) {
-            return response()->json([
-                'message' => "Restaurant '{$restaurantName}' not found."
-            ], 404);
+        foreach ($orderItems as &$orderItem) {
+            $orderItem['order_id'] = $order->id;
         }
 
-        DB::beginTransaction();
+        OrderItem::insert($orderItems);
 
-        try {
-            $totalPrice = 0;
-            $orderItems = [];
+        DB::commit();
 
-            foreach ($validated['items'] as $item) {
-                
-                $formattedName = ucwords(strtolower($item['name']));
-                $dish = Dish::where('name', $formattedName)->first();
+        return response()->json([
+            'message' => 'Order created successfully!',
+            'order' => $order,
+            'items' => $orderItems,
+            'delivery_cost' => $deliveryCost,
+        ], 201);
 
-                if (!$dish) {
-                    throw new \Exception("Dish '{$formattedName}' not found.");
-                }
+    } catch (\Exception $e) {
+        DB::rollBack();
 
-                $restaurantDish = RestaurantDish::where('dish_id', $dish->id)
-                    ->where('restaurant_id', $restaurant->id)
-                    ->first();
-
-                if (!$restaurantDish) {
-                    throw new \Exception("Dish '{$formattedName}' not available in restaurant '{$restaurantName}'.");
-                }
-
-                $price = $restaurantDish->price;
-                $quantity = $item['quantity'];
-
-                $orderItems[] = [
-                    'restaurant_id' => $restaurant->id,
-                    'dish_id' => $dish->id,
-                    'quantity' => $quantity,
-                    'item_price' => $price,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-
-                $totalPrice += $price * $quantity;
-            }
-
-            $order = Order::create([
-                'user_id' => $user->id,
-                'total_price' => $totalPrice,
-                'delivery_address' => $deliveryAddress
-            ]);
-
-            foreach ($orderItems as &$orderItem) {
-                $orderItem['order_id'] = $order->id;
-            }
-            OrderItem::insert($orderItems);
-
-            DB::commit();
-
-            return response()->json([
-                'message' => 'Order created successfully!',
-                'order' => $order,
-                'items' => $orderItems,
-            ], 201);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return response()->json([
-                'message' => 'Failed to create order!',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        return response()->json([
+            'message' => 'Failed to create order!',
+            'error' => $e->getMessage(),
+        ], 500);
     }
+}
+
+
+
 
 
     /**

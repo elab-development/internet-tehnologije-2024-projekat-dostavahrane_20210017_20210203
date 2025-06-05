@@ -16,41 +16,78 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/dishes")
-      .then((res) => {
+      .then(res => {
         setDishes(res.data);
         return axios.get("http://localhost:8000/api/restaurants");
       })
-      .then((res) => {
+      .then(res => {
         setRestaurants(res.data);
         return axios.get("http://localhost:8000/api/restaurantdishes");
       })
-      .then((res) => {
+      .then(res => {
         setRestaurantDishes(Array.isArray(res.data.data) ? res.data.data : []);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Greška pri učitavanju podataka:", error);
       });
   }, []);
 
   useEffect(() => {
-  localStorage.setItem("cartItems", JSON.stringify(items));
+    localStorage.setItem("cartItems", JSON.stringify(items));
   }, [items]);
 
   useEffect(() => {
-  if (isOrderSuccessful) {
-    localStorage.removeItem("cartItems");
-  }
-}, [isOrderSuccessful]);
+    if (isOrderSuccessful) {
+      localStorage.removeItem("cartItems");
+    }
+  }, [isOrderSuccessful]);
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!address || !phoneNumber) {
       alert("Molimo unesite adresu i broj telefona.");
       return;
     }
+    if (addressError || phoneError) {
+      alert("Molimo ispravite greške u adresi ili broju telefona.");
+      return;
+    }
+    if (items.length === 0) {
+      alert("Korpa je prazna.");
+      return;
+    }
 
-    onPlaceOrder(address, phoneNumber);
-    setIsOrderSuccessful(true);
-    setIsOrderConfirmed(true);
+    // Pripremi niz stavki sa restaurant_id, dish_id i quantity
+    const orderItems = items.map(item => ({
+      restaurant_id: item.restaurant_id,
+      dish_id: item.dish_id,
+      quantity: item.quantity,
+      name: dishes.find(d => d.id === item.dish_id)?.name || "Unknown", // Dodajem ime jela za backend validaciju ako treba
+    }));
+
+    try {
+      await axios.post(
+        "http://localhost:8000/api/orders",
+        {
+          items: orderItems,
+          delivery_address: address,
+          phone_number: phoneNumber,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${window.sessionStorage.getItem("auth_token")}`,
+          },
+        }
+      );
+
+      setIsOrderSuccessful(true);
+      setIsOrderConfirmed(true);
+      onPlaceOrder(address, phoneNumber);
+    } catch (error) {
+      console.error("Greška prilikom slanja porudžbine:", error);
+      setIsOrderSuccessful(false);
+      setIsOrderConfirmed(true);
+      alert("Došlo je do greške prilikom poručivanja. Pokušajte ponovo.");
+    }
   };
 
   const cartItems = items;
@@ -59,11 +96,12 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
     <div className="menu-container">
       <ul className="menu-list">
         {cartItems.length > 0 ? (
-          cartItems.map((item) => {
-            const dish = dishes.find((d) => d.id === item.dish_id);
-            const restaurant = restaurants.find((r) => r.id === item.restaurant_id);
-            const restaurantDish = restaurantDishes.find((rd) => rd.dish.id === item.dish_id 
-            && rd.restaurant.id === item.restaurant_id)
+          cartItems.map(item => {
+            const dish = dishes.find(d => d.id === item.dish_id);
+            const restaurant = restaurants.find(r => r.id === item.restaurant_id);
+            const restaurantDish = restaurantDishes.find(
+              rd => rd.dish.id === item.dish_id && rd.restaurant.id === item.restaurant_id
+            );
 
             if (!restaurant || !dish || !restaurantDish) return null;
 
@@ -96,8 +134,9 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
               {(() => {
                 const total = cartItems.reduce((sum, item) => {
                   const price =
-                    restaurantDishes.find((rd) => rd.dish.id === item.dish_id 
-            && rd.restaurant.id === item.restaurant_id)?.price || 0;
+                    restaurantDishes.find(
+                      rd => rd.dish.id === item.dish_id && rd.restaurant.id === item.restaurant_id
+                    )?.price || 0;
                   return sum + price * item.quantity;
                 }, 0);
                 const delivery = cartItems.length <= 2 ? 200 : 250;
@@ -115,7 +154,7 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
                 type="text"
                 id="address"
                 value={address}
-                onChange={(e) => {
+                onChange={e => {
                   const value = e.target.value;
                   setAddress(value);
                   setAddressError(
@@ -134,7 +173,7 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
                 type="tel"
                 id="phoneNumber"
                 value={phoneNumber}
-                onChange={(e) => {
+                onChange={e => {
                   const value = e.target.value;
                   setPhoneNumber(value);
                   setPhoneError(
@@ -172,6 +211,4 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
 }
 
 export default Cart;
-
-
 
