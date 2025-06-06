@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import './App.css';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Restaurants from './components/Restaurants';
@@ -13,19 +14,51 @@ import RestaurantMenu from './components/RestaurantMenu';
 import UserProfile from './components/UserProfile';
 import Cart from './components/Cart';
 import Breadcrumbs from "./components/Breadcrumbs";
+import axios from "axios";
+import AdminPanel from './components/AdminPanel';
 
 function App() {
   let [cartNum, setCartNum] = useState(0);
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
+  axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      setUser(JSON.parse(loggedInUser));
-      setIsLoggedIn(true);
-    }
-  }, []);
+  const token = sessionStorage.getItem("auth_token");
+  const userFromStorage = localStorage.getItem("user");
+
+  if (token && userFromStorage) {
+    const parsedUser = JSON.parse(userFromStorage);
+    setUser(parsedUser);
+    setIsLoggedIn(true);
+  } else {
+    setUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("auth_token");
+  }
+}, []);
+
+    useEffect(() => {
+  const token = sessionStorage.getItem("auth_token");
+  if (!token) {
+    localStorage.removeItem("user");
+    setUser(null);
+    setIsLoggedIn(false);
+    return;
+  }
+
+  axios.get("/api/orders", {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .catch(() => {
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("auth_token");
+    setUser(null);
+    setIsLoggedIn(false);
+  });
+}, []);
   
   const [cartItems, setCartItems] = useState(() => {
   const saved = localStorage.getItem("cartItems");
@@ -38,6 +71,7 @@ function App() {
       token: backendResponse.access_token,
       token_type: backendResponse.token_type,
       username: backendResponse.username, 
+      role: backendResponse.role,
     };
 
     setUser(userData);
@@ -58,6 +92,7 @@ function App() {
   localStorage.removeItem("user");
   window.sessionStorage.removeItem("auth_token");
 };
+
 
   const handlePlaceOrder = () => {
     if (user) {
@@ -117,13 +152,21 @@ function App() {
 
   return (<div className="App">
     <Router>
-      <NavBar user ={ user } cartNum={cartNum} ></NavBar>
+      <NavBar user ={ user } cartNum={cartNum}  ></NavBar>
       <Breadcrumbs /> 
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/profile" element={isLoggedIn ? <UserProfile userData={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}/>
+        <Route
+  path="/admin"
+  element=
+    {isLoggedIn && user?.role === 'admin'
+  ? <Route path="/admin" element={<AdminPanel onLogout={handleLogout} />} />
+  : <Route path="/admin" element={<Navigate to="/profile" replace />} />
+}
+/>
         <Route path="/restaurants" element={<Restaurants />}></Route>
         <Route path="/categories" element={<Categories />}></Route>
         <Route path="/search" element={<Search />}></Route>

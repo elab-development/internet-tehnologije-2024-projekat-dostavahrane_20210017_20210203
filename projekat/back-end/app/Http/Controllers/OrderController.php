@@ -93,7 +93,7 @@ class OrderController extends Controller
             $totalPrice += $price * $quantity;
         }
 
-        // Dodaj cenu dostave prema uslovu
+        
         $deliveryCost = count($validated['items']) <= 2 ? 200 : 250;
         $totalPrice += $deliveryCost;
 
@@ -130,7 +130,12 @@ class OrderController extends Controller
 }
 
 
-
+ public function getOrderCount()
+{
+    $user = auth()->user();
+    $orderCount = Order::where('user_id', $user->id)->count();
+    return response()->json(['orderCount' => $orderCount]);
+}
 
 
     /**
@@ -173,4 +178,6 @@ class OrderController extends Controller
             'message' => 'Order successfully deleted'
         ]);
     }
+
+   
 }

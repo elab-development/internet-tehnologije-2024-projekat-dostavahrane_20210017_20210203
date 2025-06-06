@@ -10,6 +10,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\DishController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -17,7 +18,6 @@ Route::get('/user', function (Request $request) {
 
 Route::get('restaurants', [RestaurantController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
-Route::get('users', [UserController::class, 'index']);
 Route::get('/restaurantcategories', [RestaurantController::class, 'withCategories']);
 Route::get('/dishes', [DishController::class, 'index']);
 Route::get('/restaurants/{id}', [RestaurantController::class, 'show']);
@@ -38,5 +38,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/password-reset', [UserController::class, 'changePassword']);
     Route::get('/export-orders', [ExportController::class, 'exportToCsv'])->name('orders.export');
+    Route::get('/orders/count', [OrderController::class, 'getOrderCount']);
 
+});
+
+Route::middleware(['auth:sanctum', 'isAdmin'])->get('/admin/data', function () {
+    return response()->json([
+        'message' => 'Dobrodošli, admin!',
+        'adminTools' => ['Pregled korisnika', 'Pregled narudžbina', 'Upravljanje restoranima'],
+    ]);
 });

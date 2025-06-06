@@ -56,12 +56,12 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
       return;
     }
 
-    // Pripremi niz stavki sa restaurant_id, dish_id i quantity
+
     const orderItems = items.map(item => ({
       restaurant_id: item.restaurant_id,
       dish_id: item.dish_id,
       quantity: item.quantity,
-      name: dishes.find(d => d.id === item.dish_id)?.name || "Unknown", // Dodajem ime jela za backend validaciju ako treba
+      name: dishes.find(d => d.id === item.dish_id)?.name || "Unknown",
     }));
 
     try {
