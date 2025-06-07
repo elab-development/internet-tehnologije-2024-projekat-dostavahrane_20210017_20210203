@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MenuItem from "./MenuItem";
+import OrderTracking from "./OrderTracking";
 import axios from "axios";
 
 function Cart({ items, onAdd, onMin, onPlaceOrder }) {
@@ -27,6 +28,9 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
   const [isOrderSuccessful, setIsOrderSuccessful] = useState(false);
   const [addressError, setAddressError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+
+  const [showOrderTracking, setShowOrderTracking] = useState(false);
+  const [currentOrderId, setCurrentOrderId] = useState(null); 
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/dishes")
@@ -56,13 +60,11 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
     }
   }, [isOrderSuccessful]);
 
-  
   const formatCardNumber = (value) => {
     const digits = value.replace(/\D/g, "");
     return digits.match(/.{1,4}/g)?.join(" ") || "";
   };
 
- 
   const handleCardNumberChange = (e) => {
     const formatted = formatCardNumber(e.target.value);
     setCardNumber(formatted);
@@ -80,7 +82,6 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
 
     if (paymentMethod === "card") {
       const newErrors = {
-        
         number: !/^\d{16}$/.test(cardNumber.replace(/\s/g, "")) ? "Broj kartice mora imati tačno 16 cifara." : "",
         name: !/^[A-Za-z\s]{5,}$/.test(cardName) ? "Ime mora sadržati bar 5 slova." : "",
         expiry: !/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate) ? "Format mora biti MM/YY." : "",
@@ -109,7 +110,7 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
     }));
 
     try {
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:8000/api/orders",
         {
           items: orderItems,
@@ -126,6 +127,8 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
 
       setIsOrderSuccessful(true);
       setIsOrderConfirmed(true);
+      setCurrentOrderId(response.data.orderId || null); 
+      setShowOrderTracking(true); 
       onPlaceOrder(address, phoneNumber);
     } catch (error) {
       console.error("Greška prilikom slanja porudžbine:", error);
@@ -136,6 +139,15 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
   };
 
   const cartItems = items;
+
+  
+  if (showOrderTracking) {
+    return (
+      <OrderTracking
+        onClose={() => setShowOrderTracking(false)}
+      />
+    );
+  }
 
   return (
     <div className="menu-container">
@@ -253,7 +265,7 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
                     value={cardNumber}
                     onChange={handleCardNumberChange}
                     placeholder="1234 5678 1234 5678"
-                    maxLength={19} 
+                    maxLength={19}
                   />
                   {cardErrors.number && <p className="error-message">{cardErrors.number}</p>}
                 </div>
@@ -308,13 +320,9 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
         </>
       )}
 
-      {isOrderConfirmed && (
+      {isOrderConfirmed && !isOrderSuccessful && (
         <div className="order-confirmation-dialog">
-          {isOrderSuccessful ? (
-            <p>Uspešno je evidentirana vaša porudžbina!</p>
-          ) : (
-            <p>Došlo je do greške prilikom poručivanja. Pokušajte ponovo.</p>
-          )}
+          <p>Došlo je do greške prilikom poručivanja. Pokušajte ponovo.</p>
         </div>
       )}
     </div>
@@ -322,5 +330,3 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
 }
 
 export default Cart;
-
-
