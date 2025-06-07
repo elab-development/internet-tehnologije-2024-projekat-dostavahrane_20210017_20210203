@@ -19,6 +19,7 @@ return new class extends Migration
                   ->default('pending');
             $table->text('delivery_address');
             $table->text('phone_number');
+            $table->text('payment_method');
             $table->timestamps();
         });
     }

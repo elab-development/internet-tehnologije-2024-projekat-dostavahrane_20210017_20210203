@@ -159,13 +159,12 @@ function App() {
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/profile" element={isLoggedIn ? <UserProfile userData={user} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}/>
-        <Route
-  path="/admin"
-  element=
-    {isLoggedIn && user?.role === 'admin'
-  ? <Route path="/admin" element={<AdminPanel onLogout={handleLogout} />} />
-  : <Route path="/admin" element={<Navigate to="/profile" replace />} />
-}
+        <Route 
+  path="/admin" 
+  element={isLoggedIn && user?.role === 'admin' ? 
+    <AdminPanel onLogout={handleLogout} /> : 
+    <Navigate to="/profile" replace />
+  } 
 />
         <Route path="/restaurants" element={<Restaurants />}></Route>
         <Route path="/categories" element={<Categories />}></Route>

@@ -14,7 +14,8 @@ class Order extends Model
         'user_id',
         'total_price',
         'delivery_address',
-        'phone_number'
+        'phone_number',
+        'payment_method'
     ];
 
     public function orderItems()

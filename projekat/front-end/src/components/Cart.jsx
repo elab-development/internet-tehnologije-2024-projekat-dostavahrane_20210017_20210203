@@ -9,6 +9,20 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
 
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
+
+  const [cardErrors, setCardErrors] = useState({
+    number: "",
+    name: "",
+    expiry: "",
+    cvv: ""
+  });
+
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
   const [isOrderSuccessful, setIsOrderSuccessful] = useState(false);
   const [addressError, setAddressError] = useState("");
@@ -42,6 +56,18 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
     }
   }, [isOrderSuccessful]);
 
+  
+  const formatCardNumber = (value) => {
+    const digits = value.replace(/\D/g, "");
+    return digits.match(/.{1,4}/g)?.join(" ") || "";
+  };
+
+ 
+  const handleCardNumberChange = (e) => {
+    const formatted = formatCardNumber(e.target.value);
+    setCardNumber(formatted);
+  };
+
   const handlePlaceOrder = async () => {
     if (!address || !phoneNumber) {
       alert("Molimo unesite adresu i broj telefona.");
@@ -51,11 +77,29 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
       alert("Molimo ispravite greške u adresi ili broju telefona.");
       return;
     }
+
+    if (paymentMethod === "card") {
+      const newErrors = {
+        
+        number: !/^\d{16}$/.test(cardNumber.replace(/\s/g, "")) ? "Broj kartice mora imati tačno 16 cifara." : "",
+        name: !/^[A-Za-z\s]{5,}$/.test(cardName) ? "Ime mora sadržati bar 5 slova." : "",
+        expiry: !/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate) ? "Format mora biti MM/YY." : "",
+        cvv: !/^\d{3}$/.test(cvv) ? "CVV mora imati tačno 3 cifre." : "",
+      };
+
+      setCardErrors(newErrors);
+
+      const hasErrors = Object.values(newErrors).some(err => err !== "");
+      if (hasErrors) {
+        alert("Molimo ispravite greške u podacima o kartici.");
+        return;
+      }
+    }
+
     if (items.length === 0) {
       alert("Korpa je prazna.");
       return;
     }
-
 
     const orderItems = items.map(item => ({
       restaurant_id: item.restaurant_id,
@@ -71,6 +115,7 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
           items: orderItems,
           delivery_address: address,
           phone_number: phoneNumber,
+          payment_method: paymentMethod,
         },
         {
           headers: {
@@ -146,7 +191,7 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
           </div>
 
           <div className="order-form">
-            <h3>Unesite adresu i broj telefona</h3>
+            <h3>Unesite adresu, broj telefona i način plaćanja</h3>
 
             <div className="form-group">
               <label htmlFor="address">Adresa:</label>
@@ -186,6 +231,72 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
               {phoneError && <p className="error-message">{phoneError}</p>}
             </div>
 
+            <div className="form-group">
+              <label htmlFor="paymentMethod">Način plaćanja:</label>
+              <select
+                id="paymentMethod"
+                value={paymentMethod}
+                onChange={e => setPaymentMethod(e.target.value)}
+              >
+                <option value="cash">Plaćanje pouzećem</option>
+                <option value="card">Plaćanje karticom</option>
+              </select>
+            </div>
+
+            {paymentMethod === "card" && (
+              <>
+                <div className="form-group">
+                  <label htmlFor="cardNumber">Broj kartice:</label>
+                  <input
+                    type="text"
+                    id="cardNumber"
+                    value={cardNumber}
+                    onChange={handleCardNumberChange}
+                    placeholder="1234 5678 1234 5678"
+                    maxLength={19} 
+                  />
+                  {cardErrors.number && <p className="error-message">{cardErrors.number}</p>}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="cardName">Ime sa kartice:</label>
+                  <input
+                    type="text"
+                    id="cardName"
+                    value={cardName}
+                    onChange={e => setCardName(e.target.value)}
+                    placeholder="IME PREZIME"
+                  />
+                  {cardErrors.name && <p className="error-message">{cardErrors.name}</p>}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="expiryDate">Datum isteka (MM/YY):</label>
+                  <input
+                    type="text"
+                    id="expiryDate"
+                    value={expiryDate}
+                    onChange={e => setExpiryDate(e.target.value)}
+                    placeholder="08/25"
+                  />
+                  {cardErrors.expiry && <p className="error-message">{cardErrors.expiry}</p>}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="cvv">CVV:</label>
+                  <input
+                    type="text"
+                    id="cvv"
+                    value={cvv}
+                    onChange={e => setCvv(e.target.value)}
+                    placeholder="123"
+                    maxLength={3}
+                  />
+                  {cardErrors.cvv && <p className="error-message">{cardErrors.cvv}</p>}
+                </div>
+              </>
+            )}
+
             <button
               className="btn-confirm-order"
               onClick={handlePlaceOrder}
@@ -211,4 +322,5 @@ function Cart({ items, onAdd, onMin, onPlaceOrder }) {
 }
 
 export default Cart;
+
 

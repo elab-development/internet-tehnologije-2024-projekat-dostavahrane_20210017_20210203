@@ -45,12 +45,13 @@ class OrderController extends Controller
         'items.*.quantity' => 'required|integer|min:1',
         'delivery_address' => 'required|string|max:255',
         'phone_number' => 'required|string|regex:/^06\d{7,}$/',
+        'payment_method' => 'required|in:cash,card',
     ]);
 
     $user = Auth::user();
-
     $deliveryAddress = $request->delivery_address;
     $phoneNumber = $validated['phone_number'];
+    $paymentMethod = $validated['payment_method']; 
 
     DB::beginTransaction();
 
@@ -59,7 +60,6 @@ class OrderController extends Controller
         $orderItems = [];
 
         foreach ($validated['items'] as $item) {
-
             $dish = Dish::find($item['dish_id']);
             if (!$dish) {
                 throw new \Exception("Dish with ID '{$item['dish_id']}' not found.");
@@ -93,7 +93,6 @@ class OrderController extends Controller
             $totalPrice += $price * $quantity;
         }
 
-        
         $deliveryCost = count($validated['items']) <= 2 ? 200 : 250;
         $totalPrice += $deliveryCost;
 
@@ -102,6 +101,7 @@ class OrderController extends Controller
             'total_price' => $totalPrice,
             'delivery_address' => $deliveryAddress,
             'phone_number' => $phoneNumber,
+            'payment_method' => $paymentMethod, 
         ]);
 
         foreach ($orderItems as &$orderItem) {
@@ -128,6 +128,7 @@ class OrderController extends Controller
         ], 500);
     }
 }
+
 
 
  public function getOrderCount()
