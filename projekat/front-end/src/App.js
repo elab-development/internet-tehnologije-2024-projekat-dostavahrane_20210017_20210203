@@ -61,9 +61,14 @@ function App() {
 }, []);
   
   const [cartItems, setCartItems] = useState(() => {
-  const saved = localStorage.getItem("cartItems");
+  const saved = sessionStorage.getItem("cartItems");
   return saved ? JSON.parse(saved) : [];
-  });
+});
+
+
+useEffect(() => {
+  sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+}, [cartItems]);
   
   const handleLogin = (backendResponse) => {
   if (backendResponse.access_token) {
@@ -83,6 +88,27 @@ function App() {
   }
 };
 
+ useEffect(() => {
+    if (user?.token) {
+      axios.get('/api/orders/count', {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      })
+      .then(res => {
+        const count = res.data.orderCount;
+        setUser(prevUser => {
+          const updatedUser = { ...prevUser, orders: count };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+          return updatedUser;
+        });
+      })
+      .catch(err => {
+        console.error("Greška pri dohvatu broja narudžbina:", err);
+      });
+    }
+  }, [user?.token]);
+  
   
   const handleLogout = () => {
   setUser(null);
