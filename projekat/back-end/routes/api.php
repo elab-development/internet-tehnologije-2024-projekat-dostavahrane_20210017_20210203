@@ -11,6 +11,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,16 +32,16 @@ Route::get('dishes/{id}/restaurants', [RestaurantDishController::class, 'getByDi
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/restaurant-dishes/search', [RestaurantDishController::class, 'search']);
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders', [OrderController::class, 'store']);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/password-reset', [UserController::class, 'changePassword']);
     Route::get('/export-orders', [ExportController::class, 'exportToCsv'])->name('orders.export');
     Route::get('/orders/count', [OrderController::class, 'getOrderCount']);
-
 });
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->get('/admin/data', function () {

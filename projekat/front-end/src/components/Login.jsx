@@ -87,6 +87,12 @@ function Login({ onLogin }) {
           Registruj se
         </Link>
       </p>
+       <p>
+      Zaboravili ste lozinku?{" "}
+       <Link to="/forgot-password" className="forgot-link">
+       Resetuj lozinku
+      </Link>
+      </p>
     </div>
   );
 }

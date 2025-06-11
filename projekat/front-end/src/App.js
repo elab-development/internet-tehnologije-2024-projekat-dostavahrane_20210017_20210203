@@ -16,6 +16,8 @@ import Cart from './components/Cart';
 import Breadcrumbs from "./components/Breadcrumbs";
 import axios from "axios";
 import AdminPanel from './components/AdminPanel';
+import ResetPassword from "./components/ResetPassword";
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   let [cartNum, setCartNum] = useState(0);
@@ -192,6 +194,8 @@ useEffect(() => {
     <Navigate to="/profile" replace />
   } 
 />
+       <Route path="/forgot-password" element={<ForgotPassword />} />
+       <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/restaurants" element={<Restaurants />}></Route>
         <Route path="/categories" element={<Categories />}></Route>
         <Route path="/search" element={<Search />}></Route>

@@ -71,22 +71,4 @@ class UserController extends Controller
         //
     }
 
-    public function changePassword(Request $request)
-    {
-
-        $validator = Validator::make($request->all(), [
-            'new_password' => 'required|confirmed|string|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $user = $request->user();
-
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        return response()->json(['message' => 'Password changed successfully.'], 200);
-    }
 }
