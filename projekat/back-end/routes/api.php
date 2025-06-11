@@ -13,6 +13,7 @@ use App\Http\Controllers\DishController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -34,6 +35,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/restaurant-dishes/search', [RestaurantDishController::class, 'search']);
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
+
+
+
+Route::post('/reviews', [ReviewController::class, 'store']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders', [OrderController::class, 'store']);

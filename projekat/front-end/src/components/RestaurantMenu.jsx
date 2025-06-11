@@ -69,7 +69,7 @@ const RestaurantMenu = ({ user, onAdd, onMin }) => {
       <div className="menu-header">
         <h2>{restaurant ? `${restaurant.name} - Meni` : "Meni"}</h2>
 
-        {/* Filtriranje */}
+        
         <div className="filter-controls">
           <label htmlFor="search">Pretraži jela: </label>
           <input
@@ -81,7 +81,7 @@ const RestaurantMenu = ({ user, onAdd, onMin }) => {
           />
         </div>
 
-        {/* Filtriranje po ceni */}
+        
         <div className="price-filter-controls">
           <label htmlFor="minPrice">Cena od: </label>
           <input
@@ -101,7 +101,7 @@ const RestaurantMenu = ({ user, onAdd, onMin }) => {
           />
         </div>
 
-        {/* Sortiranje */}
+      
         <div className="sort-controls">
           <label htmlFor="sort">Sortiraj prema: </label>
           <select
@@ -118,7 +118,7 @@ const RestaurantMenu = ({ user, onAdd, onMin }) => {
         </div>
       </div>
 
-      {/* Lista jela */}
+      
       {paginatedDishes.length > 0 ? (
         <ul className="menu-list">
           {paginatedDishes.map((dish) => (
@@ -141,7 +141,7 @@ const RestaurantMenu = ({ user, onAdd, onMin }) => {
         <p className="no-dishes">Nema dostupnih jela za ovaj restoran...</p>
       )}
 
-      {/* Paginacija */}
+      
       <div className="pagination-controls">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

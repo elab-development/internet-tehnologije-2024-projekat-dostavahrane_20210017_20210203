@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function OrderTracking({ onClose }) {
+function OrderTracking({ onClose, orderId }) {
   const [status, setStatus] = useState("Učitavanje statusa...");
 
   
@@ -28,7 +28,7 @@ function OrderTracking({ onClose }) {
         &times;
       </button>
 
-      <h2>Praćenje porudžbine</h2>
+      <h2>Praćenje porudžbine broj #{orderId}</h2>
 
       <div className="status-line">
         <div className={`status-step ${status === "Porudžbina primljena" || status !== "Učitavanje statusa..." ? "active" : ""}`}>

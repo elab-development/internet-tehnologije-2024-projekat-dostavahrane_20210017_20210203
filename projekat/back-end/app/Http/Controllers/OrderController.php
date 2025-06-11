@@ -115,6 +115,7 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Order created successfully!',
             'order' => $order,
+            'orderId' => $order->id,
             'items' => $orderItems,
             'delivery_cost' => $deliveryCost,
         ], 201);
