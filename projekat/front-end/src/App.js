@@ -200,7 +200,13 @@ useEffect(() => {
         <Route path="/categories" element={<Categories />}></Route>
         <Route path="/search" element={<Search />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu user={user} onAdd={addDish} onMin={removeDish}/>} />
-        <Route path="/cart" element={isLoggedIn ? <Cart items={cartItems} onAdd={addDish} onMin={removeDish} onPlaceOrder={handlePlaceOrder} />: <Login onLogin={handleLogin} />}></Route>
+        <Route path="/cart" element={isLoggedIn && user?.role !== 'admin' ? (
+          <Cart items={cartItems} onAdd={addDish} onMin={removeDish} onPlaceOrder={handlePlaceOrder} />
+            ) : (
+          <Navigate to="/profile" replace />
+        )
+        }
+      />
       </Routes>
     </Router>
   </div>

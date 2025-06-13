@@ -15,42 +15,50 @@ class RestaurantSeeder extends Seeder
     public function run(): void
 {
     Restaurant::updateOrCreate(
-        ['email' => 'borneo@example.com'], // Jedinstveni ključ za identifikaciju
+        ['email' => 'borneo@example.com'],
         [
             'name' => 'Borneo',
             'address' => 'Njegoseva',
             'phone' => '011333444',
-            'description' => 'Najbolja picerija u Pancevu.'
+            'description' => 'Najbolja picerija u Pancevu.',
+            'latitude' => 44.871072,
+            'longitude' => 20.642723
         ]
     );
 
     Restaurant::updateOrCreate(
-        ['email' => 'vetrenjaca@example.com'], // Jedinstveni ključ za identifikaciju
+        ['email' => 'vetrenjaca@example.com'],
         [
             'name' => 'Vetrenjaca',
             'address' => 'Tamiski kej',
             'phone' => '011222333',
-            'description' => 'Najbolji restoran u Pancevu.'
+            'description' => 'Najbolji restoran u Pancevu.',
+            'latitude' => 44.8690053,
+            'longitude' => 20.633523
         ]
     );
 
     Restaurant::updateOrCreate(
-        ['email' => 'hilton@example.com'], // Jedinstveni ključ za identifikaciju
+        ['email' => 'hilton@example.com'],
         [
             'name' => 'Hilton',
             'address' => 'Beogradska ulica',
             'phone' => '013343555',
-            'description' => 'Najbolji restoran u Beogradu.'
+            'description' => 'Najbolji restoran u Beogradu.',
+            'latitude' => 44.8040303,
+            'longitude' => 20.4635937
         ]
     );
 
     Restaurant::updateOrCreate(
-        ['email' => 'pocoloco@example.com'], // Jedinstveni ključ za identifikaciju
+        ['email' => 'pocoloco@example.com'],
         [
             'name' => 'Poco loco',
             'address' => 'Brace jovanovica',
             'phone' => '013343777',
-            'description' => 'Lep restoran sa velikim izborom hrane u Pancevu.'
+            'description' => 'Lep restoran sa velikim izborom hrane u Pancevu.',
+            'latitude' => 44.8715112,
+            'longitude' => 20.6351265
         ]
     );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { PiForkKnifeBold } from "react-icons/pi";
 import { FaRegUserCircle, FaHome } from "react-icons/fa";
 import { GrRestaurant } from "react-icons/gr";
@@ -35,15 +34,19 @@ function NavBar( {user, cartNum}) {
       </Link>
       </div>
 
-      <div className="nav-right">
-  <div className="nav-content">
-    <PiForkKnifeBold />
-    <Link to="/cart"><p className="cart-num">{cartNum}</p></Link>
-  </div>
+  <div className="nav-right">
+  {user?.role !== "admin" && (
+    <div className="nav-content">
+      <PiForkKnifeBold />
+      <Link to="/cart">
+        <p className="cart-num">{cartNum}</p>
+      </Link>
+    </div>
+  )}
   <Link to={user ? "/profile" : "/login"} className="nav-content">
     <FaRegUserCircle />
   </Link>
-</div>
+  </div>
     </div>
   );
 }

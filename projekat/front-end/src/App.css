@@ -1319,3 +1319,37 @@ h2 {
 .review-form-skip-button:hover {
   color: #f44336;
 }
+
+.admin-options {
+  display: flex;
+  justify-content: center; /* centrira celu grupu dugmića horizontalno */
+  gap: 1rem; /* razmak između dugmića */
+  margin-top: 2rem;
+}
+
+.admin-options button {
+  padding: 0.75rem 1.5rem;
+  min-width: 200px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-options button:hover {
+  background-color: #0056b3;
+}
+
+.admin-item {
+  background: #f9f9f9;
+  padding: 1rem;
+  margin: 1rem auto;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  width: 95%;
+  max-width: 600px;
+  line-height: 1.5;
+}

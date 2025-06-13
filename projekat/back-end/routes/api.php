@@ -50,9 +50,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders/count', [OrderController::class, 'getOrderCount']);
 });
 
-Route::middleware(['auth:sanctum', 'isAdmin'])->get('/admin/data', function () {
-    return response()->json([
-        'message' => 'Dobrodošli, admin!',
-        'adminTools' => ['Pregled korisnika', 'Pregled narudžbina', 'Upravljanje restoranima'],
-    ]);
+Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
+    Route::get('/admin/data', [AdminController::class, 'dashboard']);
+    Route::get('/admin/orders', [AdminController::class, 'allOrders']);
+    Route::get('/admin/users', [AdminController::class, 'allUsers']);
+    Route::get('/admin/reviews', [AdminController::class, 'allReviews']);
 });
