@@ -127,7 +127,7 @@ const RestaurantMenu = ({ user, onAdd, onMin }) => {
     keyd={dish.id}
     keyr={restaurant.id}
     name={dish.name}
-    userRole={user.role}
+    userRole={user?.role}
     restaurantname={restaurant.name}
     description={dish.description}
     price={dish.price}
