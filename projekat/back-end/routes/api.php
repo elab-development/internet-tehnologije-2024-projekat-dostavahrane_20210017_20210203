@@ -39,6 +39,7 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
 
 
 Route::post('/reviews', [ReviewController::class, 'store']);
+Route::get('/restaurants/{id}/reviews', [ReviewController::class, 'getReviewsByRestaurant']);
 
 
 Route::middleware('auth:sanctum')->group(function () {

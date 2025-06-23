@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Review;
 use Illuminate\Http\Request;
 
@@ -27,4 +28,17 @@ class ReviewController extends Controller
             'review' => $review,
         ], 201);
     }
+    public function getReviewsByRestaurant($id)
+{
+    
+    $orderIds = DB::table('order_items')
+        ->where('restaurant_id', $id)
+        ->pluck('order_id');
+
+   
+    $reviews = Review::whereIn('order_id', $orderIds)->get();
+
+    return response()->json($reviews);
+}
+
 }

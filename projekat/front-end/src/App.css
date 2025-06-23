@@ -1322,8 +1322,8 @@ h2 {
 
 .admin-options {
   display: flex;
-  justify-content: center; /* centrira celu grupu dugmića horizontalno */
-  gap: 1rem; /* razmak između dugmića */
+  justify-content: center; 
+  gap: 1rem; 
   margin-top: 2rem;
 }
 
@@ -1352,4 +1352,240 @@ h2 {
   width: 95%;
   max-width: 600px;
   line-height: 1.5;
+}
+
+
+.restaurants-reviews-section {
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.restaurants-reviews-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.reviews-carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.reviews-carousel {
+  display: flex;
+  gap: 1.8rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #bbb #eee;
+}
+
+.reviews-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.reviews-carousel::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 6px;
+}
+
+.restaurant-review-card {
+  background-color: #fefefe;
+  border-radius: 14px;
+  padding: 1.8rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ddd;
+  flex: 0 0 24%; 
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.restaurant-review-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.restaurant-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #34495e;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.4rem;
+}
+
+.restaurant-averages {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.1rem;
+  margin-bottom: 1.3rem;
+  color: #6c7a89;
+}
+
+.restaurant-averages span strong {
+  color: #2980b9;
+}
+
+
+
+.reviews-inner-carousel-container {
+  position: relative;
+  overflow: hidden;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 12px;
+}
+
+.restaurant-review-item {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+  max-width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 140px; 
+}
+
+.stars-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #f39c12;
+  font-size: 1.1rem;
+  gap: 0.5rem;
+}
+
+.stars-line span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.star {
+  color: #f39c12;
+  font-size: 1.3rem;
+  user-select: none;
+  letter-spacing: 0.1em;
+}
+
+.review-note {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #555d66;
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+
+.no-reviews-text {
+  font-style: italic;
+  color: #999;
+  font-size: 1rem;
+  margin-top: 0.6rem;
+  text-align: center;
+}
+
+
+
+.reviews-inner-carousel-arrows {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 16px;
+}
+
+.inner-carousel-arrow {
+  position: static;
+  background-color: #2980b9;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  user-select: none;
+  opacity: 0.4;
+  transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+  margin: 0 10px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner-carousel-arrow:hover {
+  opacity: 1;
+  background-color: #1f5a86;
+  transform: scale(1.1);
+}
+
+
+
+.restaurants-carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.restaurants-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #bbb #eee;
+}
+
+.restaurants-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.restaurants-carousel::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 6px;
+}
+
+.reviews-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 28px;
+  padding: 0 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  user-select: none;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+.reviews-carousel-arrow:hover {
+  background-color: #0056b3;
+}
+
+.reviews-carousel-arrow.left {
+  left: 10px;
+}
+
+.reviews-carousel-arrow.right {
+  right: 10px;
 }
