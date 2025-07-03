@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import OrdersPerRestaurant from "./OrdersPerRestaurant";
+import PopularDishes from "./PopularDishes";
+import RevenueChart from "./RevenueChart";
 
 function AdminPanel({ onLogout }) {
-  const [view, setView] = useState(null);
+  const [view, setView] = useState("chart"); 
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -15,7 +18,6 @@ function AdminPanel({ onLogout }) {
       setError("Nema tokena – pristup odbijen.");
       return;
     }
-
 
     axios.get("/api/admin/data", {
       headers: { Authorization: `Bearer ${token}` }
@@ -48,48 +50,118 @@ function AdminPanel({ onLogout }) {
     <div className="admin-panel">
       <h1>Admin Panel</h1>
 
-      <div className="admin-options">
-        <button onClick={() => fetchData("/api/admin/orders", "orders")}>Prikaži sve narudžbine</button>
-        <button onClick={() => fetchData("/api/admin/users", "users")}>Prikaži sve korisnike</button>
-        <button onClick={() => fetchData("/api/admin/reviews", "reviews")}>Prikaži sve recenzije</button>
+      <div className="admin-content" style={{ minHeight: "400px", marginBottom: "2rem" }}>
+       {view === "orders" && (
+  <div className="admin-table-container">
+    <table className="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Korisnik</th>
+          <th>Cena</th>
+          <th>Adresa</th>
+          <th>Telefon</th>
+          <th>Plaćanje</th>
+          <th>Kreirano</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((order) => (
+          <tr key={order.id}>
+            <td>{order.id}</td>
+            <td>{order.user?.username} ({order.user?.email})</td>
+            <td>{order.total_price} RSD</td>
+            <td>{order.delivery_address}</td>
+            <td>{order.phone_number}</td>
+            <td>{order.payment_method}</td>
+            <td>{new Date(order.created_at).toLocaleString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+{view === "users" && (
+  <div className="admin-table-container">
+    <table className="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Korisničko ime</th>
+          <th>Email</th>
+          <th>Email verifikovan</th>
+          <th>Registrovan</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((user) => (
+          <tr key={user.id}>
+            <td>{user.id}</td>
+            <td>{user.username}</td>
+            <td>{user.email}</td>
+            <td>{user.email_verified_at ? "Da" : "Ne"}</td>
+            <td>{new Date(user.created_at).toLocaleDateString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+       {view === "reviews" && (
+  <div className="admin-table-container">
+    <table className="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Korisnik</th>
+          <th>Ocena hrane</th>
+          <th>Ocena dostave</th>
+          <th>Komentar</th>
+          <th>Kreirano</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((review) => (
+          <tr key={review.id}>
+            <td>{review.id}</td>
+            <td>{review.order?.user?.username} ({review.order?.user?.email})</td>
+            <td>{review.food_rating}/5</td>
+            <td>{review.delivery_rating}/5</td>
+            <td>{review.note}</td>
+            <td>{new Date(review.created_at).toLocaleString()}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
+        {view === "chart" &&  <OrdersPerRestaurant />}
+
+        {view === "popularDishes" && <PopularDishes />}
+
+        {view === "revenue" && <RevenueChart />}
+
       </div>
 
-      <div className="admin-content">
-  {view === "orders" && data.map((order, i) => (
-    <div key={i} className="admin-item">
-      <p><strong>ID:</strong> {order.id}</p>
-      <p><strong>Korisnik:</strong> {order.user?.username} ({order.user?.email})</p>
-      <p><strong>Cena:</strong> {order.total_price} RSD</p>
-      <p><strong>Adresa:</strong> {order.delivery_address}</p>
-      <p><strong>Telefon:</strong> {order.phone_number}</p>
-      <p><strong>Način plaćanja:</strong> {order.payment_method}</p>
-      <p><strong>Kreirano:</strong> {new Date(order.created_at).toLocaleString()}</p>
-      <hr />
+      <div className="admin-button-groups">
+  <div className="stat-buttons">
+    <p className="button-group-title">📊 Statistika:</p>
+    <div className="button-row">
+      <button onClick={() => setView("chart")}>Porudžbine po restoranu</button>
+      <button onClick={() => setView("popularDishes")}>Najpopularnija jela</button>
+      <button onClick={() => setView("revenue")}>Prihodi</button>
     </div>
-  ))}
+  </div>
 
-  {view === "users" && data.map((user, i) => (
-    <div key={i} className="admin-item">
-      <p><strong>ID:</strong> {user.id}</p>
-      <p><strong>Ime:</strong> {user.username}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Email verifikovan:</strong> {user.email_verified_at ? "Da" : "Ne"}</p>
-      <p><strong>Registrovan:</strong> {new Date(user.created_at).toLocaleDateString()}</p>
-      <hr />
+  <div className="data-buttons">
+    <p className="button-group-title">📁 Podaci:</p>
+    <div className="button-row">
+      <button onClick={() => fetchData("/api/admin/orders", "orders")}>Sve narudžbine</button>
+      <button onClick={() => fetchData("/api/admin/users", "users")}>Svi korisnici</button>
+      <button onClick={() => fetchData("/api/admin/reviews", "reviews")}>Sve recenzije</button>
     </div>
-  ))}
-
-  {view === "reviews" && data.map((review, i) => (
-    <div key={i} className="admin-item">
-      <p><strong>ID:</strong> {review.id}</p>
-      <p><strong>Korisnik:</strong> {review.order?.user?.username} ({review.order?.user?.email})</p>
-      <p><strong>Ocena hrane:</strong> {review.food_rating}/5</p>
-      <p><strong>Ocena dostave:</strong> {review.delivery_rating}/5</p>
-      <p><strong>Komentar:</strong> {review.note}</p>
-      <p><strong>Kreirano:</strong> {new Date(review.created_at).toLocaleString()}</p>
-      <hr />
-    </div>
-  ))}
+  </div>
 </div>
 
       <div style={{ marginTop: "1rem", marginBottom: "1rem", textAlign: "center" }}>
@@ -102,3 +174,4 @@ function AdminPanel({ onLogout }) {
 }
 
 export default AdminPanel;
+

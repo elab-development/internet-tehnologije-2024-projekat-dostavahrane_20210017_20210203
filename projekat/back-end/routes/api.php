@@ -56,4 +56,7 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::get('/admin/orders', [AdminController::class, 'allOrders']);
     Route::get('/admin/users', [AdminController::class, 'allUsers']);
     Route::get('/admin/reviews', [AdminController::class, 'allReviews']);
+    Route::get('/admin/statistics/orders-per-restaurant', [AdminController::class, 'ordersPerRestaurant']);
+    Route::get('/admin/statistics/popular-dishes', [AdminController::class, 'popularDishes']);
+    Route::get('/admin/statistics/revenue', [AdminController::class, 'revenueStatistics']);
 });
