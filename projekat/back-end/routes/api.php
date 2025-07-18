@@ -59,4 +59,11 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::get('/admin/statistics/orders-per-restaurant', [AdminController::class, 'ordersPerRestaurant']);
     Route::get('/admin/statistics/popular-dishes', [AdminController::class, 'popularDishes']);
     Route::get('/admin/statistics/revenue', [AdminController::class, 'revenueStatistics']);
+    Route::get('admin/restaurants', [RestaurantController::class, 'index']);
+    Route::get('admin/categories', [CategoryController::class, 'index']);
+    Route::post('admin/restaurants/create', [AdminController::class, 'createRestaurant']);
+    Route::delete('admin/restaurants/{id}/delete', [AdminController::class, 'deleteRestaurant']);
+    Route::post('admin/categories/create', [AdminController::class, 'createCategory']);
+    Route::delete('admin/categories/{id}/delete', [AdminController::class, 'deleteCategory']);
+    Route::post('admin/restaurant-dishes/assign', [AdminController::class, 'assignDishToRestaurant']);
 });

@@ -10,6 +10,8 @@ class RestaurantDish extends Model
     /** @use HasFactory<\Database\Factories\RestaurantDishFactory> */
     use HasFactory;
 
+    protected $fillable = ['restaurant_id', 'dish_id', 'price'];
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);

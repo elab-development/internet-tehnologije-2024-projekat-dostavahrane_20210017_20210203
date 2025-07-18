@@ -1375,12 +1375,17 @@ h2 {
 }
 
 .stat-buttons .button-row button {
-  background-color: #17a2b8; /* tirkizna */
+  background-color: #17a2b8;
   color: white;
 }
 
 .data-buttons .button-row button {
-  background-color: #6c757d; /* siva */
+  background-color: #6c757d;
+  color: white;
+}
+
+.edit-buttons .button-row button {
+  background-color: #FFD04D;
   color: white;
 }
 

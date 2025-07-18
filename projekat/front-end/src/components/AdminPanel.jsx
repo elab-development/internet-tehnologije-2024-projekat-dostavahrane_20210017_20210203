@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom";
 import OrdersPerRestaurant from "./OrdersPerRestaurant";
 import PopularDishes from "./PopularDishes";
 import RevenueChart from "./RevenueChart";
+import AddRestaurant from "./AddRestaurant";
+import DeleteRestaurant from "./DeleteRestaurant";
+import AddCategory from "./AddCategory";
+import DeleteCategory from "./DeleteCategory.jsx";
+import AssignDish from "./AssignDish.jsx";
 
 function AdminPanel({ onLogout }) {
   const [view, setView] = useState("chart"); 
@@ -142,7 +147,24 @@ function AdminPanel({ onLogout }) {
 
         {view === "revenue" && <RevenueChart />}
 
+        {view === "addRestaurant" && <AddRestaurant />}
+        {view === "deleteRestaurant" && <DeleteRestaurant />}
+        {view === "addCategory" && <AddCategory />}
+        {view === "deleteCategory" && <DeleteCategory />}
+        {view === "assignDish" && <AssignDish />}
+
       </div>
+
+      <div className="edit-buttons">
+  <p className="button-group-title">✏️ Izmeni:</p>
+  <div className="button-row">
+    <button onClick={() => setView("addRestaurant")}>Dodaj restoran</button>
+    <button onClick={() => setView("deleteRestaurant")}>Obriši restoran</button>
+    <button onClick={() => setView("addCategory")}>Dodaj kategoriju</button>
+    <button onClick={() => setView("deleteCategory")}>Obriši kategoriju</button>
+    <button onClick={() => setView("assignDish")}>Dodaj jelo u restoran</button>
+  </div>
+</div>
 
       <div className="admin-button-groups">
   <div className="stat-buttons">

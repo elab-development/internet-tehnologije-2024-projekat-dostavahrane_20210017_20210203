@@ -9,6 +9,8 @@ use App\Models\Review;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\DB;
 use App\Models\Dish;
+use App\Models\Category;
+use App\Models\RestaurantDish;
 
 class AdminController extends Controller
 {
@@ -106,6 +108,73 @@ public function revenueStatistics()
         'per_restaurant' => $revenuePerRestaurant,
         'total' => $totalRevenue
     ]);
+}
+
+public function createRestaurant(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|email|unique:restaurants,email',
+        'address' => 'required|string',
+        'phone' => 'required|string',
+        'description' => 'nullable|string',
+        'latitude' => 'required|numeric',
+        'longitude' => 'required|numeric',
+    ]);
+
+    $restaurant = Restaurant::create($validated);
+
+    return response()->json(['message' => 'Restoran uspešno dodat.', 'restaurant' => $restaurant], 201);
+}
+
+public function deleteRestaurant($id)
+{
+    $restaurant = Restaurant::findOrFail($id);
+    $restaurant->delete();
+
+    return response()->json(['message' => 'Restoran obrisan.']);
+}
+
+public function createCategory(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255|unique:categories,name',
+    ]);
+
+    $category = Category::create([
+        'name' => $request->name,
+    ]);
+
+    return response()->json(['message' => 'Kategorija uspešno dodata', 'category' => $category], 201);
+}
+
+
+public function deleteCategory($id)
+{
+    $category = Category::findOrFail($id);
+    $category->delete();
+    return response()->json(['message' => 'Kategorija obrisana.']);
+}
+
+public function assignDishToRestaurant(Request $request)
+{
+    $validated = $request->validate([
+        'dish_id' => 'required|exists:dishes,id',
+        'restaurant_id' => 'required|exists:restaurants,id',
+        'price' => 'required|numeric|min:0',
+    ]);
+
+    $exists = RestaurantDish::where('dish_id', $validated['dish_id'])
+        ->where('restaurant_id', $validated['restaurant_id'])
+        ->exists();
+
+    if ($exists) {
+        return response()->json(['message' => 'Jelo je već dodato u restoran.'], 409);
+    }
+
+    RestaurantDish::create($validated);
+
+    return response()->json(['message' => 'Jelo uspešno dodeljeno restoranu.']);
 }
 
 }
