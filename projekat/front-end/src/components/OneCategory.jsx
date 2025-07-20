@@ -10,7 +10,6 @@ import pica from '../photos/pica.png';
 import desert from '../photos/desert.png';
 
 const OneCategory = ({ category, onCategoryClick }) => {
-  
   const imageMap = {
     1: smallpizza,
     2: pasta,
@@ -23,8 +22,11 @@ const OneCategory = ({ category, onCategoryClick }) => {
     9: desert,
   };
 
- 
-  const imageSrc = imageMap[category.id] || burger;
+  const backendImage = category.picture
+    ? `http://127.0.0.1:8000/storage/${category.picture}`
+    : null;
+
+  const imageSrc = backendImage || imageMap[category.id] || burger;
 
   return (
     <div
@@ -41,3 +43,4 @@ const OneCategory = ({ category, onCategoryClick }) => {
 };
 
 export default OneCategory;
+

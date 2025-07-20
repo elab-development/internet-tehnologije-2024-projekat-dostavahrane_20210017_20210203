@@ -120,7 +120,13 @@ public function createRestaurant(Request $request)
         'description' => 'nullable|string',
         'latitude' => 'required|numeric',
         'longitude' => 'required|numeric',
+        'picture' => 'nullable|image|max:2048'
     ]);
+
+      if ($request->hasFile('picture')) {
+        $path = $request->file('picture')->store('restaurant_pictures', 'public');
+        $validated['picture'] = $path;
+    }
 
     $restaurant = Restaurant::create($validated);
 
@@ -137,13 +143,17 @@ public function deleteRestaurant($id)
 
 public function createCategory(Request $request)
 {
-    $request->validate([
+    $validated = $request->validate([
         'name' => 'required|string|max:255|unique:categories,name',
+        'picture' => 'nullable|image|max:2048'
     ]);
 
-    $category = Category::create([
-        'name' => $request->name,
-    ]);
+    if ($request->hasFile('picture')) {
+        $path = $request->file('picture')->store('category_pictures', 'public');
+        $validated['picture'] = $path;
+    }
+
+    $category = Category::create($validated);
 
     return response()->json(['message' => 'Kategorija uspešno dodata', 'category' => $category], 201);
 }

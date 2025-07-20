@@ -22,7 +22,8 @@ class RestaurantSeeder extends Seeder
             'phone' => '011333444',
             'description' => 'Najbolja picerija u Pancevu.',
             'latitude' => 44.871072,
-            'longitude' => 20.642723
+            'longitude' => 20.642723,
+            'picture' => 'restaurant_pictures/borneopica.jpg'
         ]
     );
 
@@ -34,7 +35,9 @@ class RestaurantSeeder extends Seeder
             'phone' => '011222333',
             'description' => 'Najbolji restoran u Pancevu.',
             'latitude' => 44.8690053,
-            'longitude' => 20.633523
+            'longitude' => 20.633523,
+            'picture' => 'restaurant_pictures/karadjordjeva.jpg'
+
         ]
     );
 
@@ -46,7 +49,8 @@ class RestaurantSeeder extends Seeder
             'phone' => '013343555',
             'description' => 'Najbolji restoran u Beogradu.',
             'latitude' => 44.8040303,
-            'longitude' => 20.4635937
+            'longitude' => 20.4635937,
+            'picture' => 'restaurant_pictures/hiltonbiftek.jpg'
         ]
     );
 
@@ -58,7 +62,8 @@ class RestaurantSeeder extends Seeder
             'phone' => '013343777',
             'description' => 'Lep restoran sa velikim izborom hrane u Pancevu.',
             'latitude' => 44.8715112,
-            'longitude' => 20.6351265
+            'longitude' => 20.6351265,
+            'picture' => 'restaurant_pictures/pasta.jpg'
         ]
     );
 }
