@@ -70,7 +70,9 @@ const AssignDish = () => {
   />
 </div>
         </div>
-        <button type="submit">Dodaj jelo restoranu</button>
+        <button type="submit" style={{ padding: "0.75rem 1.5rem", background: "#28a745", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}>
+          Dodaj jelo u restoran
+        </button>
         {message && <p style={{ marginTop: "1rem" }}>{message}</p>}
       </form>
     </div>

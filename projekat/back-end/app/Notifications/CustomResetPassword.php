@@ -37,6 +37,7 @@ class CustomResetPassword extends Notification
     public function toMail($notifiable)
     {
         $frontendUrl = 'http://localhost:3000/reset-password';
+        $expire = config('auth.passwords.' . config('auth.defaults.passwords') . '.expire');
 
         return (new MailMessage)
             ->subject('Resetuj lozinku')

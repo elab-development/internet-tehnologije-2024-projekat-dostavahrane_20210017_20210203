@@ -9,7 +9,6 @@ function OneRestaurant({ restaurant, cat }) {
   const stil = { margin: '1em', cursor: 'pointer' };
   const navigate = useNavigate();
 
-  
   const imageMap = {
     1: borneopica,
     2: karadjordjeva,
@@ -17,8 +16,11 @@ function OneRestaurant({ restaurant, cat }) {
     4: pasta
   };
 
-  
-  const imageSrc = imageMap[restaurant.id] || karadjordjeva;
+  const backendImage = restaurant.picture
+    ? `http://127.0.0.1:8000/storage/${restaurant.picture}`
+    : null;
+
+  const imageSrc = backendImage || imageMap[restaurant.id] || karadjordjeva;
 
   const handleRestaurantClick = () => {
     navigate(`/restaurants/${restaurant.id}`);
@@ -48,3 +50,4 @@ function OneRestaurant({ restaurant, cat }) {
 }
 
 export default OneRestaurant;
+

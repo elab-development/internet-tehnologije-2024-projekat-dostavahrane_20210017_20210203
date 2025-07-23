@@ -17,7 +17,8 @@ class Restaurant extends Model
         'phone',
         'description',
         'latitude',
-        'longitude'
+        'longitude',
+        'picture'
     ];
 
     public function restaurant_dish()
