@@ -1559,18 +1559,16 @@ h2 {
   display: flex;
   flex-direction: column;
   min-height: 140px; 
+  overflow: visible;
 }
 
 .stars-line {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #f39c12;
-  font-size: 1.1rem;
+  align-items: center;  
+  flex-wrap: wrap;       
   gap: 0.5rem;
 }
-
 .stars-line span {
   display: flex;
   align-items: center;
